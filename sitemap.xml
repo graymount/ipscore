@@ -5,35 +5,28 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url>
-        <loc>https://ip-security-score.com/</loc>
+        <loc>https://www.goodip.info/</loc>
         <lastmod>2024-12-19</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
 
     <url>
-        <loc>https://ip-security-score.com/api</loc>
+        <loc>https://www.goodip.info/help.html</loc>
         <lastmod>2024-12-19</lastmod>
-        <changefreq>weekly</changefreq>
+        <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://ip-security-score.com/history</loc>
-        <lastmod>2024-12-19</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <url>
-        <loc>https://ip-security-score.com/privacy</loc>
+        <loc>https://www.goodip.info/privacy</loc>
         <lastmod>2024-12-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
 
     <url>
-        <loc>https://ip-security-score.com/terms</loc>
+        <loc>https://www.goodip.info/terms</loc>
         <lastmod>2024-12-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>

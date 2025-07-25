@@ -79,7 +79,7 @@
                 </div>
                 <nav class="header-nav" role="navigation" aria-label="Main Navigation">
                     <a href="/" class="nav-item active" aria-current="page" onclick="showDashboard(event)">我的IP</a>
-                    <a href="/history" class="nav-item">检测历史</a>
+                    <a href="help.html" class="nav-item">检测说明</a>
                     
                     <div class="ip-input-section">
                         <label for="customIP" class="sr-only">输入IP地址</label>
@@ -131,6 +131,30 @@
                             </div>
                         </div>
                         <div class="score-status" id="scoreStatus">评分中...</div>
+                        <div class="score-info" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 12px; color: #fff;">
+                            💡 <strong>评分说明：</strong>90+分可正常使用各类服务，70-89分可能需要额外验证，低于70分建议改善网络环境
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Check IP Card -->
+                <div class="card-row">
+                    <div class="card info-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;">🤔 为什么要检测IP安全？</h3>
+                        <div class="info-content" style="line-height: 1.6;">
+                            <p style="margin-bottom: 10px;">您的IP地址就像网络身份证，决定了您能否顺利使用各种在线服务：</p>
+                            <ul style="padding-left: 20px; margin: 0;">
+                                <li>银行、支付平台注册可能被拒绝</li>
+                                <li>电商购物账户可能被风控限制</li>
+                                <li>游戏平台可能要求额外验证</li>
+                                <li>邮件可能被标记为垃圾邮件</li>
+                            </ul>
+                            <div style="margin-top: 15px; text-align: center;">
+                                <a href="help.html" style="color: #fff; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; text-decoration: none; display: inline-block; backdrop-filter: blur(10px);">
+                                    了解更多详情 →
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

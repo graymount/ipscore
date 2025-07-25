@@ -14,7 +14,7 @@ Allow: /favicon.ico
 Allow: /sitemap.xml
 
 # Sitemap location
-Sitemap: https://ip-security-score.com/sitemap.xml
+Sitemap: https://www.goodip.info/sitemap.xml
 
 # Crawl delay for polite crawling
 Crawl-delay: 1

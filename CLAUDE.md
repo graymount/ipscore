@@ -25,7 +25,7 @@ This is a static web application for IP security analysis and evaluation - an IP
 **Key Methods:**
 - `init()` - Application initialization and analysis orchestration
 - `runAnalysis()` - Parallel execution of security checks
-- `calculateSecurityScore()` - Comprehensive scoring algorithm (368-452)
+- `calculateSecurityScore()` - Comprehensive scoring algorithm (375-459)
 - `analyzeThreatIntelligence()` - Multi-source threat detection
 - `detectProxy()` - VPN/proxy identification logic
 - `generateDeviceFingerprint()` - Browser fingerprinting analysis
@@ -52,8 +52,11 @@ This is a static web application for IP security analysis and evaluation - an IP
 ### No Build System
 This is a vanilla HTML/CSS/JavaScript application with no build tools, package managers, or dependencies. Files can be edited directly and served statically.
 
-### Deployment
-Application is designed for static hosting (GitHub Pages, Netlify, etc.) with PWA capabilities through the manifest.json configuration.
+### Deployment Configuration
+- `_headers` - Security headers and caching rules for Netlify deployment
+- `_redirects` - URL redirect rules for SPA routing
+- `sitemap.xml` - SEO sitemap with main application routes
+- `robots.txt` - Search engine crawling instructions
 
 ### Browser Compatibility
 - Uses modern JavaScript features (async/await, fetch API, WebRTC)
@@ -65,3 +68,44 @@ The application attempts to use external IP geolocation services but includes fa
 
 ### Security Considerations
 While this appears to be a security analysis tool, the actual threat detection logic uses deterministic algorithms rather than real threat intelligence feeds, making it more of a demonstration/educational tool than a production security scanner.
+
+## SEO and Performance Features
+
+### SEO Optimization
+- Comprehensive meta tags with Chinese language support
+- Open Graph and Twitter Card integration
+- Structured data using JSON-LD for rich snippets
+- Semantic HTML structure with proper heading hierarchy
+- Sitemap and robots.txt for search engine indexing
+
+### PWA Features
+- Service worker ready with manifest.json
+- Offline capability through static file caching
+- Mobile-responsive design with touch-friendly interfaces
+- App shortcuts for quick access to main features
+
+### Performance Optimizations
+- Static asset caching via _headers configuration
+- Optimized CSS animations and transitions
+- Lazy loading of non-critical resources
+- Efficient DOM manipulation patterns
+
+## Common Development Tasks
+
+Since this is a static application with no build system:
+- **Testing**: Open `index.html` directly in browser or use a local HTTP server
+- **Debugging**: Use browser developer tools; debug information is logged to console
+- **Styling**: Edit `style.css` directly - changes are immediately visible
+- **Functionality**: Modify `script.js` - refresh browser to see changes
+
+## File Organization
+
+- `index.html` - Main application entry point
+- `script.js` - Core application logic and IPSecurityAnalyzer class
+- `style.css` - All styling including responsive design
+- `manifest.json` - PWA configuration
+- `sitemap.xml` - SEO sitemap
+- `robots.txt` - Search engine instructions
+- `_headers` - Deployment security headers
+- `_redirects` - URL routing for static hosting
+- Test files (`test*.html`, `debug.html`) - Development and testing utilities
