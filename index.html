@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP安全评分 - 专业IP安全威胁检测与分析平台</title>
+    <meta name="description" content="专业的IP地址安全检测平台，提供实时威胁情报分析、代理VPN检测、地理位置验证、设备指纹识别等多维度IP安全评估服务。">
+    <meta name="keywords" content="IP安全检测,IP威胁分析,代理检测,VPN检测,IP地理位置,网络安全评估,威胁情报,IP信誉检查,网络安全工具">
+    <meta name="author" content="IP Security Score">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ip-security-score.com/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ip-security-score.com/">
+    <meta property="og:title" content="IP安全评分 - 专业IP安全评估平台">
+    <meta property="og:description" content="免费的IP安全检测工具，提供威胁情报分析、代理检测、地理验证等专业服务。立即检查您的IP安全状况。">
+    <meta property="og:image" content="https://ip-security-score.com/og-image.jpg">
+    <meta property="og:site_name" content="IP安全评分">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ip-security-score.com/">
+    <meta property="twitter:title" content="IP安全评分 - 专业IP安全评估平台">
+    <meta property="twitter:description" content="免费的IP安全检测工具，提供威胁情报分析、代理检测、地理验证等专业服务。">
+    <meta property="twitter:image" content="https://ip-security-score.com/twitter-image.jpg">
+    
+    <!-- Favicon and PWA -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2a5298">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "IP安全评分",
+        "alternateName": "IP安全评估",
+        "description": "专业的IP地址安全检测平台，提供实时威胁情报分析、代理VPN检测、地理位置验证等服务",
+        "url": "https://ip-security-score.com",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "provider": {
+            "@type": "Organization",
+            "name": "IP安全评分",
+            "url": "https://ip-security-score.com"
+        },
+        "featureList": [
+            "IP威胁情报检测",
+            "代理VPN识别",
+            "地理位置验证",
+            "设备指纹分析",
+            "端口安全扫描",
+            "网络性能测试"
+        ]
+    }
+    </script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="main-header" role="banner">
+            <div class="header-content">
+                <div class="logo">
+                    <h1 itemprop="name">🛡️ IP安全评分</h1>
+                    <p class="tagline" itemprop="description">专业的IP安全威胁评估平台</p>
+                </div>
+                <nav class="header-nav" role="navigation" aria-label="Main Navigation">
+                    <a href="/" class="nav-item active" aria-current="page" onclick="showDashboard(event)">我的IP</a>
+                    <a href="#" class="nav-item" onclick="showApiInfo(event)">API</a>
+                    <a href="/history" class="nav-item">检测历史</a>
+                    
+                    <div class="ip-input-section">
+                        <label for="customIP" class="sr-only">输入IP地址</label>
+                        <input type="text" id="customIP" class="ip-input" 
+                               placeholder="输入IP地址检测"
+                               aria-label="IP address input" 
+                               pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$">
+                        <button onclick="checkCustomIP()" class="check-btn" 
+                                aria-label="Check specified IP address">检测</button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="loading-screen" id="loadingScreen">
+                <div class="loading-animation">
+                    <div class="scanning-circle"></div>
+                    <div class="loading-text">
+                        <h2>正在扫描您的IP...</h2>
+                        <p id="loadingStatus">初始化安全引擎...</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard" id="dashboard" style="display: none;">
+                <!-- Main IP Information Card -->
+                <div class="card-row">
+                    <div class="card ip-card">
+                        <h3>您的IP地址</h3>
+                        <div class="ip-display">
+                            <span class="flag" id="countryFlag">🇺🇸</span>
+                            <span class="ip-address" id="ipAddress">-</span>
+                            <button class="copy-btn" onclick="copyIP()">📋</button>
+                        </div>
+                        <p class="location" id="location">United States, Ohio, Columbus</p>
+                        <a href="#" class="how-to-change">如何修改IP？</a>
+                    </div>
+
+                    <div class="card score-card">
+                        <h3>安全评分</h3>
+                        <div class="score-display">
+                            <div class="score-circle" id="scoreCircle">
+                                <span class="score-value" id="scoreValue">-</span>
+                                <span class="score-max">/100</span>
+                            </div>
+                        </div>
+                        <div class="score-status" id="scoreStatus">评分中...</div>
+                    </div>
+                </div>
+
+                <!-- Security Detection Results -->
+                <div class="card-row">
+                    <div class="card blacklist-card">
+                        <h3>🛡️ 威胁情报检测</h3>
+                        <div class="check-list" id="blacklistResults">
+                            <div class="check-item">
+                                <span>恶意软件数据库</span>
+                                <span class="status checking">检测中</span>
+                            </div>
+                            <div class="check-item">
+                                <span>垃圾邮件列表</span>
+                                <span class="status checking">检测中</span>
+                            </div>
+                            <div class="check-item">
+                                <span>僵尸网络</span>
+                                <span class="status checking">检测中</span>
+                            </div>
+                            <div class="check-item">
+                                <span>攻击源IP</span>
+                                <span class="status checking">检测中</span>
+                            </div>
+                            <div class="check-item">
+                                <span>钓鱼网站</span>
+                                <span class="status checking">检测中</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card proxy-card">
+                        <h3>🔍 代理/VPN检测</h3>
+                        <div class="proxy-result" id="proxyResult">
+                            <div class="proxy-status">
+                                <span class="status-label">类型:</span>
+                                <span class="status-value" id="proxyType">检测中...</span>
+                            </div>
+                            <div class="proxy-details">
+                                <div class="detail-item">
+                                    <span>匿名级别:</span>
+                                    <span id="anonymityLevel">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>代理协议:</span>
+                                    <span id="proxyProtocol">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>风险等级:</span>
+                                    <span id="proxyRisk">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Information -->
+                <div class="card-row">
+                    <div class="card location-card">
+                        <h3>📍 地理位置信息</h3>
+                        <div class="location-tabs">
+                            <button class="tab-btn active" onclick="switchTab('geoip1')">GeoIP1</button>
+                            <button class="tab-btn" onclick="switchTab('geoip2')">GeoIP2</button>
+                        </div>
+                        <div class="location-details" id="locationDetails">
+                            <div class="detail-row">
+                                <span class="label">IP:</span>
+                                <span class="value" id="detailIP">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">国家:</span>
+                                <span class="value" id="detailCountry">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">省/州:</span>
+                                <span class="value" id="detailState">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">城市:</span>
+                                <span class="value" id="detailCity">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">邮编:</span>
+                                <span class="value" id="detailZip">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">时区:</span>
+                                <span class="value" id="detailTimezone">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">组织:</span>
+                                <span class="value" id="detailOrg">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">ISP:</span>
+                                <span class="value" id="detailISP">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">ASN:</span>
+                                <span class="value" id="detailASN">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card network-card">
+                        <h3>🌐 网络信息</h3>
+                        <div class="network-info">
+                            <div class="info-section">
+                                <h4>DNS服务器</h4>
+                                <div class="dns-list" id="dnsList">
+                                    <div class="dns-item">
+                                        <span class="flag">🇺🇸</span>
+                                        <span>检测中...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-section">
+                                <h4>时区信息</h4>
+                                <div class="timezone-info">
+                                    <div class="time-item">
+                                        <span class="label">本地时间:</span>
+                                        <span id="localTime">-</span>
+                                    </div>
+                                    <div class="time-item">
+                                        <span class="label">浏览器时间:</span>
+                                        <span id="browserTime">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-section">
+                                <h4>网络性能</h4>
+                                <div class="performance-info">
+                                    <div class="perf-item">
+                                        <span class="label">延迟:</span>
+                                        <span id="latency">测试中...</span>
+                                    </div>
+                                    <div class="perf-item">
+                                        <span class="label">MTU:</span>
+                                        <span id="mtu">检测中...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Detection -->
+                <div class="card-row">
+                    <div class="card fingerprint-card">
+                        <h3>🔬 设备指纹分析</h3>
+                        <div class="fingerprint-details">
+                            <div class="detail-group">
+                                <h4>浏览器信息</h4>
+                                <div class="detail-item">
+                                    <span>User Agent:</span>
+                                    <span id="userAgent">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>WebDriver:</span>
+                                    <span id="webDriver">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>语言:</span>
+                                    <span id="language">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>颜色深度:</span>
+                                    <span id="colorDepth">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>设备内存:</span>
+                                    <span id="deviceMemory">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>并发数:</span>
+                                    <span id="concurrency">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>分辨率:</span>
+                                    <span id="resolution">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card advanced-card">
+                        <h3>⚡ 高级安全检测</h3>
+                        <div class="advanced-checks">
+                            <div class="check-section">
+                                <h4>WebRTC检测</h4>
+                                <div class="webrtc-result" id="webrtcResult">
+                                    <span class="status">检测中...</span>
+                                </div>
+                            </div>
+                            <div class="check-section">
+                                <h4>端口扫描</h4>
+                                <div class="port-scan-controls">
+                                    <button class="scan-btn" onclick="startPortScan()">开始扫描</button>
+                                    <div class="scan-results" id="portScanResults">
+                                        <span>点击开始扫描常用端口</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="check-section">
+                                <h4>安全建议</h4>
+                                <div class="security-tips" id="securityTips">
+                                    <div class="tip-item">
+                                        <span class="tip-icon">💡</span>
+                                        <span>分析中...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scoring Debug Panel -->
+                <div class="card debug-card">
+                    <h3>🔍 评分调试信息</h3>
+                    <div class="debug-content" id="debugContent">
+                        <p>正在分析评分过程...</p>
+                    </div>
+                </div>
+
+                <!-- Retest Button -->
+                <div class="retest-section">
+                    <button class="retest-btn" onclick="startTest()">🔄 重新检测</button>
+                </div>
+            </div>
+
+            <!-- API Documentation Page -->
+            <div class="api-page" id="apiPage" style="display: none;">
+                <div class="api-header">
+                    <h2>🔗 API 接口文档</h2>
+                    <p>使用以下curl命令访问我们的IP安全分析API</p>
+                </div>
+
+                <div class="api-section">
+                    <div class="api-card">
+                        <h3>🏠 您的IP信息</h3>
+                        <div class="api-description">
+                            <p>获取当前访问者的IP地址信息，包括基本的IP数据。</p>
+                        </div>
+                        <div class="code-block">
+                            <code>curl https://ip-score.com/ip</code>
+                            <button class="copy-code-btn" onclick="copyApiCode(this)" data-code="curl https://ip-score.com/ip">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <h3>📍 位置和ISP信息</h3>
+                        <div class="api-description">
+                            <p>获取您IP的详细地理位置信息和ISP数据，返回JSON格式。</p>
+                        </div>
+                        <div class="code-block">
+                            <code>curl https://ip-score.com/json</code>
+                            <button class="copy-code-btn" onclick="copyApiCode(this)" data-code="curl https://ip-score.com/json">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <h3>🎯 自定义IP位置查询</h3>
+                        <div class="api-description">
+                            <p>查询指定IP地址的地理位置信息和ISP数据。</p>
+                        </div>
+                        <div class="code-block">
+                            <code>curl https://ip-score.com/json -F 'ip="1.1.1.1"'</code>
+                            <button class="copy-code-btn" onclick="copyApiCode(this)" data-code="curl https://ip-score.com/json -F 'ip=\"1.1.1.1\"'">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <h3>🛡️ 威胁情报检测</h3>
+                        <div class="api-description">
+                            <p>检查您的IP是否在各种黑名单和威胁情报库中，包括垃圾邮件列表等。</p>
+                        </div>
+                        <div class="code-block">
+                            <code>curl https://ip-score.com/spamjson</code>
+                            <button class="copy-code-btn" onclick="copyApiCode(this)" data-code="curl https://ip-score.com/spamjson">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <h3>🎯 自定义IP威胁检测</h3>
+                        <div class="api-description">
+                            <p>检查指定IP地址的威胁情报信息。</p>
+                        </div>
+                        <div class="code-block">
+                            <code>curl https://ip-score.com/spamjson -F 'ip="1.1.1.1"'</code>
+                            <button class="copy-code-btn" onclick="copyApiCode(this)" data-code="curl https://ip-score.com/spamjson -F 'ip=\"1.1.1.1\"'">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <h3>📊 完整安全报告</h3>
+                        <div class="api-description">
+                            <p>获取您IP的完整安全评估报告，包括位置、ISP、威胁情报等所有信息。</p>
+                        </div>
+                        <div class="code-block">
+                            <code>curl https://ip-score.com/fulljson</code>
+                            <button class="copy-code-btn" onclick="copyApiCode(this)" data-code="curl https://ip-score.com/fulljson">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <h3>🎯 自定义IP完整报告</h3>
+                        <div class="api-description">
+                            <p>获取指定IP地址的完整安全评估报告。</p>
+                        </div>
+                        <div class="code-block">
+                            <code>curl https://ip-score.com/fulljson -F 'ip="1.1.1.1"'</code>
+                            <button class="copy-code-btn" onclick="copyApiCode(this)" data-code="curl https://ip-score.com/fulljson -F 'ip=\"1.1.1.1\"'">📋</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-features">
+                    <h3>🚀 API特性</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <div class="feature-content">
+                                <h4>快速响应</h4>
+                                <p>毫秒级响应时间，高性能API服务</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔒</span>
+                            <div class="feature-content">
+                                <h4>安全可靠</h4>
+                                <p>HTTPS加密传输，保护数据安全</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📈</span>
+                            <div class="feature-content">
+                                <h4>高可用性</h4>
+                                <p>99.9%服务可用性保证</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🆓</span>
+                            <div class="feature-content">
+                                <h4>免费使用</h4>
+                                <p>无需注册，完全免费的API服务</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-examples">
+                    <h3>📋 响应示例</h3>
+                    <div class="example-tabs">
+                        <button class="example-tab active" onclick="showExample('basic')">基础信息</button>
+                        <button class="example-tab" onclick="showExample('threat')">威胁检测</button>
+                        <button class="example-tab" onclick="showExample('full')">完整报告</button>
+                    </div>
+                    
+                    <div class="example-content" id="basicExample">
+                        <pre><code>{
+  "ip": "1.1.1.1",
+  "country": "Australia",
+  "country_code": "AU",
+  "region": "Queensland", 
+  "city": "South Brisbane",
+  "postal": "4101",
+  "latitude": -27.4766,
+  "longitude": 153.0166,
+  "timezone": "Australia/Brisbane",
+  "org": "APNIC and Cloudflare DNS Resolver project",
+  "isp": "Cloudflare",
+  "asn": "AS13335"
+}</code></pre>
+                    </div>
+
+                    <div class="example-content" id="threatExample" style="display: none;">
+                        <pre><code>{
+  "ip": "1.1.1.1",
+  "threats": [
+    {
+      "source": "恶意软件数据库",
+      "isThreat": false,
+      "severity": null,
+      "confidence": 0.95
+    },
+    {
+      "source": "垃圾邮件列表", 
+      "isThreat": false,
+      "severity": null,
+      "confidence": 0.98
+    }
+  ],
+  "risk_score": 0,
+  "security_level": "safe"
+}</code></pre>
+                    </div>
+
+                    <div class="example-content" id="fullExample" style="display: none;">
+                        <pre><code>{
+  "ip": "1.1.1.1",
+  "location": {
+    "country": "Australia",
+    "region": "Queensland",
+    "city": "South Brisbane",
+    "postal": "4101",
+    "timezone": "Australia/Brisbane"
+  },
+  "network": {
+    "org": "APNIC and Cloudflare DNS Resolver project",
+    "isp": "Cloudflare", 
+    "asn": "AS13335"
+  },
+  "security": {
+    "threats": [],
+    "proxy_detected": false,
+    "risk_score": 100,
+    "security_level": "excellent"
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <p>&copy; 2024 IP Security Score. 专业的IP安全评估服务 | 保护您的网络安全</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

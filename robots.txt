@@ -1,0 +1,33 @@
+User-agent: *
+Allow: /
+
+# Disallow sensitive directories (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.git/
+Disallow: /node_modules/
+
+# Allow important files
+Allow: /style.css
+Allow: /script.js
+Allow: /favicon.ico
+Allow: /sitemap.xml
+
+# Sitemap location
+Sitemap: https://ip-security-score.com/sitemap.xml
+
+# Crawl delay for polite crawling
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 3
