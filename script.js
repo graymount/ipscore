@@ -1118,30 +1118,8 @@ function getStatusText(status) {
 }
 
 
-// API页面相关函数
-function showApiInfo(event) {
-    event.preventDefault();
-    
-    // 隐藏其他页面
-    document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'none';
-    document.getElementById('apiPage').style.display = 'block';
-    
-    // 更新导航状态
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    // 更新页面标题
-    document.title = 'API接口文档 - IP安全评分平台';
-}
-
 function showDashboard(event) {
     event.preventDefault();
-    
-    // 隐藏其他页面
-    document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('apiPage').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
     
     // 更新导航状态
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -1149,35 +1127,6 @@ function showDashboard(event) {
     
     // 更新页面标题
     document.title = 'IP安全评分 - 专业IP安全威胁检测与分析平台';
-}
-
-function copyApiCode(button) {
-    const code = button.getAttribute('data-code');
-    navigator.clipboard.writeText(code).then(() => {
-        const originalText = button.textContent;
-        button.textContent = '✓';
-        button.style.background = '#28a745';
-        setTimeout(() => {
-            button.textContent = originalText;
-            button.style.background = '';
-        }, 1500);
-    });
-}
-
-function showExample(exampleType) {
-    // 隐藏所有示例
-    document.querySelectorAll('.example-content').forEach(content => {
-        content.style.display = 'none';
-    });
-    
-    // 更新标签状态
-    document.querySelectorAll('.example-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    // 显示选中的示例
-    document.getElementById(exampleType + 'Example').style.display = 'block';
-    event.target.classList.add('active');
 }
 
 // 页面加载完成后自动开始
