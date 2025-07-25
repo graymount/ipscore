@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Multi-language Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .test-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .lang-switcher { 
+            margin-bottom: 30px; 
+            text-align: center;
+        }
+        .lang-btn { 
+            padding: 10px 20px; 
+            margin: 0 5px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .lang-btn:hover {
+            background: #2980b9;
+        }
+        .lang-btn.active {
+            background: #27ae60;
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 20px; 
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        .debug-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            margin: 20px 0;
+        }
+    </style>
+    <script src="i18n.js"></script>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Multi-language Test (Fixed)</h1>
+        
+        <div class="lang-switcher">
+            <button class="lang-btn" id="btn-en" onclick="switchLanguage('en')">English</button>
+            <button class="lang-btn" id="btn-zh" onclick="switchLanguage('zh')">中文</button>
+        </div>
+        
+        <div class="debug-info">
+            <p>Current Language: <span id="currentLang">-</span></p>
+            <p>I18n Status: <span id="i18nStatus">-</span></p>
+            <p>Test Key (site.title): <span id="testTranslation">-</span></p>
+        </div>
+        
+        <div class="test-section">
+            <h2 data-i18n="site.title">IP Security Score</h2>
+            <p data-i18n="site.tagline">Professional IP Security Assessment Platform</p>
+        </div>
+        
+        <div class="test-section">
+            <h3 data-i18n="card.threats.title">🛡️ Threat Intelligence Detection</h3>
+            <p data-i18n="loading.steps.0">Initializing security engine...</p>
+            <p data-i18n="loading.steps.1">Fetching IP address information...</p>
+        </div>
+        
+        <div class="test-section">
+            <h3 data-i18n="card.proxy.title">🔍 Proxy/VPN Detection</h3>
+            <p><span data-i18n="proxy.type">Type:</span> <span data-i18n="proxy.direct">Direct</span></p>
+            <p><span data-i18n="proxy.risk">Risk Level:</span> <span data-i18n="proxy.low">Low</span></p>
+        </div>
+        
+        <div class="test-section">
+            <button data-i18n="common.retest">🔄 Retest</button>
+        </div>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            console.log('Switching to language:', lang);
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+            
+            if (window.i18n) {
+                window.i18n.setLanguage(lang);
+                updateDebugInfo();
+            } else {
+                console.error('i18n not available');
+            }
+        }
+        
+        function updateDebugInfo() {
+            if (window.i18n) {
+                document.getElementById('currentLang').textContent = window.i18n.getCurrentLanguage();
+                document.getElementById('testTranslation').textContent = window.i18n.t('site.title');
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded, i18n available:', !!window.i18n);
+            
+            if (window.i18n) {
+                document.getElementById('i18nStatus').textContent = 'Available';
+                const currentLang = window.i18n.getCurrentLanguage();
+                document.getElementById('btn-' + currentLang).classList.add('active');
+                window.i18n.updatePageLanguage();
+                updateDebugInfo();
+            } else {
+                document.getElementById('i18nStatus').textContent = 'Not Available';
+            }
+        });
+    </script>
+</body>
+</html>

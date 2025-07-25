@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="site.title">IP Security Score</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .language-switcher {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .lang-btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .lang-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .lang-btn.active {
+            background: #27ae60;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .debug-panel {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-ok { background: #27ae60; }
+        .status-error { background: #e74c3c; }
+        button {
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #8e44ad;
+        }
+    </style>
+    <script src="i18n.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 data-i18n="site.title">IP Security Score</h1>
+            <p data-i18n="site.tagline">Professional IP Security Assessment Platform</p>
+        </div>
+        
+        <div class="language-switcher">
+            <button class="lang-btn" id="btn-en" onclick="switchToLanguage('en')">English</button>
+            <button class="lang-btn" id="btn-zh" onclick="switchToLanguage('zh')">中文</button>
+        </div>
+        
+        <div class="debug-panel">
+            <div><span class="status-indicator" id="status-i18n"></span>i18n System: <span id="i18n-status">Loading...</span></div>
+            <div><span class="status-indicator" id="status-lang"></span>Current Language: <span id="current-lang">-</span></div>
+            <div><span class="status-indicator" id="status-elements"></span>Translatable Elements: <span id="element-count">-</span></div>
+            <div>Sample Translation: <span id="sample-translation">-</span></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 data-i18n="card.threats.title">🛡️ Threat Intelligence Detection</h2>
+            <p data-i18n="loading.steps.0">Initializing security engine...</p>
+            <p data-i18n="loading.steps.1">Fetching IP address information...</p>
+        </div>
+        
+        <div class="test-section">
+            <h2 data-i18n="card.proxy.title">🔍 Proxy/VPN Detection</h2>
+            <p><strong data-i18n="proxy.type">Type:</strong> <span data-i18n="proxy.direct">Direct</span></p>
+            <p><strong data-i18n="proxy.risk">Risk Level:</strong> <span data-i18n="proxy.low">Low</span></p>
+        </div>
+        
+        <div class="test-section">
+            <h2 data-i18n="card.network.title">🌐 Network Information</h2>
+            <p data-i18n="network.dns">DNS Servers</p>
+            <p data-i18n="network.performance">Network Performance</p>
+        </div>
+        
+        <div class="test-section">
+            <button data-i18n="common.retest">🔄 Retest</button>
+            <button onclick="debugTranslations()">Debug Translations</button>
+        </div>
+    </div>
+
+    <script>
+        function switchToLanguage(lang) {
+            console.log('=== Language Switch Started ===');
+            console.log('Target language:', lang);
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+            
+            // Switch language
+            if (window.i18n) {
+                window.i18n.setLanguage(lang);
+                updateDebugPanel();
+            } else {
+                console.error('i18n not available');
+            }
+            
+            console.log('=== Language Switch Completed ===');
+        }
+        
+        function updateDebugPanel() {
+            if (window.i18n) {
+                document.getElementById('i18n-status').textContent = 'Available';
+                document.getElementById('status-i18n').className = 'status-indicator status-ok';
+                
+                const currentLang = window.i18n.getCurrentLanguage();
+                document.getElementById('current-lang').textContent = currentLang;
+                document.getElementById('status-lang').className = 'status-indicator status-ok';
+                
+                const elements = document.querySelectorAll('[data-i18n]');
+                document.getElementById('element-count').textContent = elements.length;
+                document.getElementById('status-elements').className = 'status-indicator status-ok';
+                
+                document.getElementById('sample-translation').textContent = window.i18n.t('site.title');
+            } else {
+                document.getElementById('i18n-status').textContent = 'Not Available';
+                document.getElementById('status-i18n').className = 'status-indicator status-error';
+            }
+        }
+        
+        function debugTranslations() {
+            if (window.i18n) {
+                console.log('=== Debug Translations ===');
+                console.log('Current language:', window.i18n.getCurrentLanguage());
+                console.log('Available translations:', Object.keys(window.i18n.translations));
+                console.log('Sample translations:');
+                console.log('  site.title (en):', window.i18n.translations.en['site.title']);
+                console.log('  site.title (zh):', window.i18n.translations.zh['site.title']);
+                console.log('Current translation result:', window.i18n.t('site.title'));
+                
+                // Test each element
+                document.querySelectorAll('[data-i18n]').forEach((el, index) => {
+                    const key = el.getAttribute('data-i18n');
+                    const translation = window.i18n.t(key);
+                    console.log(`Element ${index}: ${key} = "${translation}"`);
+                });
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded');
+            
+            setTimeout(() => {
+                if (window.i18n) {
+                    console.log('i18n initialized');
+                    const currentLang = window.i18n.getCurrentLanguage();
+                    document.getElementById('btn-' + currentLang).classList.add('active');
+                    window.i18n.updatePageLanguage();
+                    updateDebugPanel();
+                } else {
+                    console.error('i18n failed to initialize');
+                    updateDebugPanel();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

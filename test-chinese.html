@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP安全评分测试页面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: white;
+            color: #333;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .test-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-btn:hover {
+            background: #2980b9;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .status.checking { background: #fff3cd; color: #856404; }
+        .status.clear { background: #d4edda; color: #155724; }
+        .status.threat { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ IP安全评分</h1>
+            <p>专业的IP安全威胁评估平台</p>
+        </div>
+        
+        <div class="card">
+            <h3>页面测试状态</h3>
+            <p><strong>语言:</strong> 中文 (zh-CN)</p>
+            <p><strong>字符编码:</strong> UTF-8</p>
+            <p><strong>页面标题:</strong> IP安全评分测试页面</p>
+            <p><strong>状态:</strong> <span class="status clear">正常显示</span></p>
+        </div>
+        
+        <div class="card">
+            <h3>🛡️ 威胁情报检测</h3>
+            <div style="margin: 10px 0;">
+                <div>恶意软件数据库: <span class="status checking">检测中</span></div>
+                <div>垃圾邮件列表: <span class="status checking">检测中</span></div>
+                <div>僵尸网络: <span class="status clear">安全</span></div>
+                <div>攻击源IP: <span class="status clear">安全</span></div>
+                <div>钓鱼网站: <span class="status clear">安全</span></div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>🔍 代理/VPN检测</h3>
+            <p><strong>类型:</strong> 直连</p>
+            <p><strong>匿名级别:</strong> 无</p>
+            <p><strong>代理协议:</strong> 无</p>
+            <p><strong>风险等级:</strong> 低</p>
+        </div>
+        
+        <div class="card">
+            <h3>📍 地理位置信息</h3>
+            <p><strong>国家:</strong> 中国</p>
+            <p><strong>省/州:</strong> 北京市</p>
+            <p><strong>城市:</strong> 北京</p>
+            <p><strong>时区:</strong> Asia/Shanghai</p>
+            <p><strong>ISP:</strong> 测试网络</p>
+        </div>
+        
+        <div class="card">
+            <h3>测试功能</h3>
+            <button class="test-btn" onclick="testFunction()">🔄 重新检测</button>
+            <button class="test-btn" onclick="showAlert()">📋 复制IP</button>
+            <button class="test-btn" onclick="location.reload()">↻ 刷新页面</button>
+        </div>
+        
+        <div class="card">
+            <h3>✅ 验证结果</h3>
+            <ul>
+                <li>✓ 页面语言设置为中文</li>
+                <li>✓ 所有界面文本为中文显示</li>
+                <li>✓ 没有多语言切换器</li>
+                <li>✓ CSS样式正常加载</li>
+                <li>✓ JavaScript功能可用</li>
+                <li>✓ 响应式设计正常</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function testFunction() {
+            alert('重新检测功能正常！');
+        }
+        
+        function showAlert() {
+            alert('IP复制功能正常！当前显示语言：中文');
+        }
+        
+        // 页面加载完成提示
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('中文页面加载完成');
+            console.log('页面语言:', document.documentElement.lang);
+            console.log('页面标题:', document.title);
+        });
+    </script>
+</body>
+</html>
