@@ -52,6 +52,28 @@
                         <script>
                              (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
+                        
+                        <!-- Fallback content when ads are blocked -->
+                        <div class="ad-fallback" id="adFallback" style="display: none; padding: 20px; background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%); color: white; border-radius: 12px; text-align: center;">
+                            <h3 style="color: white; margin-bottom: 15px;">🌟 平台特色功能</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                                    <span style="font-size: 1.2rem;">🛡️</span>
+                                    <p style="margin: 8px 0 0; font-size: 0.9rem;">实时威胁情报检测</p>
+                                </div>
+                                <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                                    <span style="font-size: 1.2rem;">🔍</span>
+                                    <p style="margin: 8px 0 0; font-size: 0.9rem;">专业代理VPN识别</p>
+                                </div>
+                                <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                                    <span style="font-size: 1.2rem;">💯</span>
+                                    <p style="margin: 8px 0 0; font-size: 0.9rem;">完全免费使用</p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; font-size: 0.85rem; opacity: 0.8;">
+                                💚 支持本站：请考虑将我们加入广告白名单
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -273,6 +295,27 @@
                 });
             }
         });
+
+        // Show fallback content when ads are blocked
+        function showFallbackContent() {
+            setTimeout(() => {
+                const adElements = document.querySelectorAll('.adsbygoogle');
+                adElements.forEach(ad => {
+                    if (ad.innerHTML.length === 0 || ad.offsetHeight === 0) {
+                        const adContainer = ad.closest('.ad-container');
+                        if (adContainer) {
+                            const fallback = adContainer.querySelector('.ad-fallback');
+                            if (fallback) {
+                                fallback.style.display = 'block';
+                            }
+                        }
+                    }
+                });
+            }, 3000);
+        }
+        
+        // Initialize fallback content check
+        document.addEventListener('DOMContentLoaded', showFallbackContent);
 
         // AdSense initialization
         (adsbygoogle = window.adsbygoogle || []).push({});
