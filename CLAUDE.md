@@ -8,8 +8,8 @@ This is a static web application for IP security analysis and evaluation - an IP
 
 **Key Files:**
 - `index.html` - Main application interface with comprehensive IP security dashboard
-- `script.js` - Core application logic with IPSecurityAnalyzer class (1135 lines)
-- `style.css` - Complete UI styling with responsive design and animations
+- `script.js` - Core application logic with IPSecurityAnalyzer class
+- `style.css` - Complete UI styling with responsive design and animations  
 - `i18n.js` - Internationalization system supporting multiple languages
 - `help.html` - Educational content about IP security importance
 - `manifest.json` - PWA configuration for offline capabilities
@@ -18,23 +18,23 @@ This is a static web application for IP security analysis and evaluation - an IP
 
 ### Core Components
 
-**IPSecurityAnalyzer Class (script.js:1-939)**
+**IPSecurityAnalyzer Class (script.js)**
 - Main application controller managing all security analysis workflows
 - Handles IP detection, threat intelligence, proxy detection, and scoring algorithms
 - Implements progressive loading with 8-step analysis pipeline
 - Provides real-time security scoring with detailed debug information
 
 **Key Methods:**
-- `init()` - Application initialization and analysis orchestration
+- `init()` - Application initialization and analysis orchestration  
 - `runAnalysis()` - Parallel execution of security checks via Promise.all
-- `calculateSecurityScore()` - Comprehensive scoring algorithm with debugging (375-459)
+- `calculateSecurityScore()` - Comprehensive scoring algorithm with debugging
 - `analyzeThreatIntelligence()` - Multi-source threat detection using deterministic algorithms
 - `detectProxy()` - VPN/proxy identification based on ISP/organization analysis
 - `generateDeviceFingerprint()` - Browser fingerprinting with WebRTC detection
 - `checkThreatSource()` - Individual threat intelligence source checking
 - `analyzeNetworkInfo()` - DNS and network performance analysis
 
-**I18n Class (i18n.js:1-422)**
+**I18n Class (i18n.js)**
 - Multi-language support system with auto-detection
 - Supports English, Chinese, Spanish, French, German, Japanese, Korean
 - Fallback mechanisms and parameter replacement
@@ -74,16 +74,21 @@ npx serve .
 
 ### Testing
 ```bash
-# No automated tests - use browser developer tools
-# Debug information is logged to console
-# Manual testing by entering different IP addresses
+# Run scoring algorithm tests
+node test_scoring.js
+
+# No automated test framework - manual testing approach:
+# 1. Open browser developer tools console
+# 2. Debug information is logged to console during analysis
+# 3. Test by entering different IP addresses in the UI
+# 4. Monitor network requests and error handling
 ```
 
 ### Deployment
 - Static hosting compatible (Netlify, Vercel, GitHub Pages)
-- Uses `_headers` for security headers and caching
-- Uses `_redirects` for SPA routing
-- No build process required
+- Uses `_headers` for security headers and caching policies
+- Uses `_redirects` for SPA routing (currently redirects all to index.html)
+- No build process required - files served directly
 
 ## Multi-language Support
 
@@ -155,8 +160,41 @@ Due to browser CORS restrictions, the application:
 
 ### Content & Configuration
 - `help.html` - Educational content about IP security
-- `manifest.json` - PWA configuration with shortcuts
+- `about.html`, `contact.html`, `privacy.html`, `terms.html` - Additional pages
+- `manifest.json` - PWA configuration with shortcuts and icons
+- `test_scoring.js` - Standalone scoring algorithm test suite
 - `sitemap.xml` - SEO sitemap
 - `robots.txt` - Search engine directives
-- `_headers` - Security headers and caching for Netlify
+- `_headers` - Netlify security headers and caching policies
 - `_redirects` - SPA routing configuration
+
+## Key Global Functions
+
+### Entry Points
+- `window.onload` - Initializes IPSecurityAnalyzer and starts analysis
+- `startTest()` - Restarts the analysis process (called by retest button)
+- `checkCustomIP()` - Analyzes user-specified IP address from input field
+- `copyIP()` - Copies current IP address to clipboard
+
+### UI Management
+- `showDashboard(event)` - Navigation handler for main dashboard view
+- `switchTab(tabName)` - Switches between different geolocation data tabs
+- `startPortScan()` - Initiates client-side port scanning functionality
+
+## Critical Implementation Notes
+
+### Ad Integration
+- Uses Google AdSense with fallback content when ads are blocked
+- `showFallbackContent()` method silently displays security tips if ads fail to load
+- Ad blocking detection is passive - no intrusive prompts
+
+### Error Handling
+- All network requests use try-catch with graceful fallbacks
+- Multiple IP detection services prevent single point of failure
+- CORS errors are anticipated and handled with alternative approaches
+
+### Performance Considerations
+- Parallel execution of analysis tasks using Promise.all
+- Timeout controls on external API calls
+- Progressive loading with visual feedback
+- Caching strategies via _headers configuration

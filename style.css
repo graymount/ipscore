@@ -727,7 +727,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
-    align-items: start;
+    align-items: stretch;
     margin-bottom: 20px;
 }
 
@@ -740,7 +740,7 @@ body {
     position: relative;
     overflow: hidden;
     min-height: 400px;
-    height: auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
