@@ -22,8 +22,9 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
-    overflow: visible;
-    height: 400px;
+    overflow: hidden;
+    min-height: 400px;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -726,7 +727,8 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
-    align-items: stretch;
+    align-items: start;
+    margin-bottom: 20px;
 }
 
 .card {
@@ -736,8 +738,9 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
-    overflow: visible;
-    height: 400px;
+    overflow: hidden;
+    min-height: 400px;
+    height: auto;
     display: flex;
     flex-direction: column;
 }
