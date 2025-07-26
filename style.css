@@ -267,10 +267,12 @@
 }
 
 .contact-card {
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.95);
     padding: 25px;
     border-radius: 12px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .contact-card h3 {
@@ -295,9 +297,11 @@
 .contact-form-section {
     margin: 40px 0;
     padding: 30px;
-    background: #f9f9f9;
+    background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
 }
 
 .contact-form {
@@ -331,6 +335,8 @@
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s;
+    background: white;
+    color: #333;
 }
 
 .form-group input:focus,
@@ -404,11 +410,13 @@
 }
 
 .faq-item {
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.95);
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 10px;
     border-left: 4px solid #2a5298;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .faq-item h4 {
@@ -435,10 +443,12 @@
 
 .response-item {
     text-align: center;
-    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    background: rgba(255, 255, 255, 0.95);
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .response-item h4 {
@@ -539,11 +549,13 @@
 }
 
 .contact-info .contact-item {
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.95);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    border: 1px solid #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 /* Mobile Responsiveness */
