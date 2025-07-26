@@ -546,13 +546,6 @@ class IPSecurityAnalyzer {
                 <span>ISP分析:</span>
                 <span>${this.analyzeISP().riskFactor || '正常ISP'}</span>
             </div>
-            
-            <div class="debug-summary">
-                <h4>💡 对比分析</h4>
-                <p><strong>ip-score.com得分:</strong> <span style="color: #28a745;">100/100</span></p>
-                <p><strong>我们的得分:</strong> <span style="color: ${this.healthScore >= 95 ? '#28a745' : '#dc3545'};">${this.healthScore}/100</span></p>
-                <p><strong>差异原因:</strong> ${this.healthScore < 100 ? '存在以上扣分项目' : '评分一致'}</p>
-            </div>
         `;
 
         debugContent.innerHTML = html;
