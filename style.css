@@ -22,8 +22,8 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
-    min-height: 320px;
+    overflow: auto;
+    height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -726,7 +726,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
-    align-items: start;
+    align-items: stretch;
 }
 
 .card {
@@ -736,9 +736,8 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
-    height: fit-content;
-    min-height: 320px;
+    overflow: auto;
+    height: 400px;
     display: flex;
     flex-direction: column;
 }
@@ -848,30 +847,7 @@ body {
     font-weight: 500;
 }
 
-/* Blacklist Card */
-.blacklist-card {
-    min-height: 320px;
-}
-
-.proxy-card {
-    min-height: 320px;
-}
-
-.location-card {
-    min-height: 320px;
-}
-
-.network-card {
-    min-height: 320px;
-}
-
-.fingerprint-card {
-    min-height: 320px;
-}
-
-.advanced-card {
-    min-height: 320px;
-}
+/* Specific Card Styles */
 
 .check-list {
     display: flex;
