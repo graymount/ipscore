@@ -432,15 +432,28 @@ class IPSecurityAnalyzer {
         const ispAnalysis = this.analyzeISP();
         // 移除ISP相关的扣分，保持与ip-score.com一致
 
-        // 确保分数不会过低 - 采用ip-score.com的乐观评分标准
+        // 确保分数不会过低 - 但对真正的威胁要严格处理
+        const hasCriticalThreats = this.threatData.some(threat => 
+            threat.isThreat && threat.severity === 'critical'
+        );
+        const hasHighThreats = this.threatData.some(threat => 
+            threat.isThreat && threat.severity === 'high'
+        );
+        
         if (riskFactors.length === 0) {
             score = 100; // 无风险因素时直接给100分
+        } else if (hasCriticalThreats) {
+            // 有critical威胁时不强制提高分数
+            score = Math.max(score, 30); // 最低30分
+        } else if (hasHighThreats) {
+            // 有high威胁时稍微宽松一些
+            score = Math.max(score, 70); // 最低70分
         } else if (riskFactors.length <= 1) {
-            score = Math.max(score, 98); // 1个风险因素时至少98分
+            score = Math.max(score, 98); // 1个低风险因素时至少98分
         } else if (riskFactors.length <= 2) {
-            score = Math.max(score, 95); // 2个风险因素时至少95分
+            score = Math.max(score, 90); // 2个低风险因素时至少90分
         } else {
-            score = Math.max(score, 90); // 多个风险因素时至少90分
+            score = Math.max(score, 80); // 多个低风险因素时至少80分
         }
 
         this.healthScore = Math.max(0, Math.min(100, Math.round(score)));
