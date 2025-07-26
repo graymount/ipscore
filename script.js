@@ -440,20 +440,35 @@ class IPSecurityAnalyzer {
             threat.isThreat && threat.severity === 'high'
         );
         
+        // 调试信息
+        console.log('威胁检测调试:', {
+            threatData: this.threatData,
+            hasCriticalThreats: hasCriticalThreats,
+            hasHighThreats: hasHighThreats,
+            riskFactorsLength: riskFactors.length,
+            currentScore: score
+        });
+        
         if (riskFactors.length === 0) {
             score = 100; // 无风险因素时直接给100分
+            console.log('应用规则: 无风险因素 -> 100分');
         } else if (hasCriticalThreats) {
             // 有critical威胁时不强制提高分数
             score = Math.max(score, 30); // 最低30分
+            console.log('应用规则: 有critical威胁 -> 最低30分, 实际分数:', score);
         } else if (hasHighThreats) {
             // 有high威胁时稍微宽松一些
             score = Math.max(score, 70); // 最低70分
+            console.log('应用规则: 有high威胁 -> 最低70分, 实际分数:', score);
         } else if (riskFactors.length <= 1) {
             score = Math.max(score, 98); // 1个低风险因素时至少98分
+            console.log('应用规则: 1个低风险 -> 最低98分, 实际分数:', score);
         } else if (riskFactors.length <= 2) {
             score = Math.max(score, 90); // 2个低风险因素时至少90分
+            console.log('应用规则: 2个低风险 -> 最低90分, 实际分数:', score);
         } else {
             score = Math.max(score, 80); // 多个低风险因素时至少80分
+            console.log('应用规则: 多个低风险 -> 最低80分, 实际分数:', score);
         }
 
         this.healthScore = Math.max(0, Math.min(100, Math.round(score)));
