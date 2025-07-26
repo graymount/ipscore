@@ -969,59 +969,81 @@ class IPSecurityAnalyzer {
     }
 
     populateDeviceFingerprint() {
-        const fingerprints = [
-            { id: 'userAgent', value: this.fingerprint.userAgent },
-            { id: 'webDriver', value: this.fingerprint.webdriver ? 'true' : 'false' },
-            { id: 'language', value: this.fingerprint.language },
-            { id: 'colorDepth', value: this.fingerprint.colorDepth },
-            { id: 'deviceMemory', value: `${this.fingerprint.deviceMemory}GB` },
-            { id: 'concurrency', value: this.fingerprint.hardwareConcurrency },
-            { id: 'resolution', value: this.fingerprint.screenResolution }
-        ];
+        try {
+            const fingerprints = [
+                { id: 'userAgent', value: this.fingerprint?.userAgent?.substring(0, 80) + '...' || 'Unknown' },
+                { id: 'webDriver', value: this.fingerprint?.webdriver ? '是' : '否' },
+                { id: 'language', value: this.fingerprint?.language || 'Unknown' },
+                { id: 'colorDepth', value: this.fingerprint?.colorDepth ? `${this.fingerprint.colorDepth} bits` : 'Unknown' },
+                { id: 'deviceMemory', value: this.fingerprint?.deviceMemory ? `${this.fingerprint.deviceMemory} GB` : 'Unknown' },
+                { id: 'concurrency', value: this.fingerprint?.hardwareConcurrency || 'Unknown' },
+                { id: 'resolution', value: this.fingerprint?.screenResolution || 'Unknown' }
+            ];
 
-        fingerprints.forEach(fp => {
-            const element = document.getElementById(fp.id);
-            if (element) {
-                element.textContent = fp.value || 'Unknown';
-            }
-        });
+            fingerprints.forEach(fp => {
+                const element = document.getElementById(fp.id);
+                if (element) {
+                    element.textContent = fp.value;
+                } else {
+                    console.warn(`Element with id '${fp.id}' not found`);
+                }
+            });
+        } catch (error) {
+            console.error('Error populating device fingerprint:', error);
+        }
     }
 
     populateAdvancedChecks() {
-        // WebRTC结果
-        document.getElementById('webrtcResult').innerHTML = 
-            `<span class="status ${this.fingerprint.webRTC === 'Detected' ? 'threat' : 'clear'}">${this.fingerprint.webRTC}</span>`;
+        try {
+            // WebRTC结果
+            const webrtcElement = document.getElementById('webrtcResult');
+            if (webrtcElement) {
+                const webrtcStatus = this.fingerprint?.webRTC || '未检测';
+                const statusClass = webrtcStatus === 'Detected' ? 'threat' : 'clear';
+                webrtcElement.innerHTML = `<span class="status ${statusClass}">${webrtcStatus}</span>`;
+            }
 
-        // 安全建议
-        this.generateSecurityTips();
+            // 安全建议
+            this.generateSecurityTips();
+        } catch (error) {
+            console.error('Error populating advanced checks:', error);
+        }
     }
 
     generateSecurityTips() {
-        const tips = [];
-        
-        if (this.healthScore < 70) {
-            tips.push('建议使用VPN服务提高网络安全性');
-        }
-        
-        if (this.riskFactors.length > 0) {
-            tips.push('您的IP存在安全风险，建议更换网络环境');
-        }
-        
-        if (this.fingerprint.webdriver) {
-            tips.push('检测到自动化工具，可能影响隐私安全');
-        }
-        
-        if (tips.length === 0) {
-            tips.push('您的网络环境相对安全，保持良好习惯');
-        }
+        try {
+            const tips = [];
+            
+            if (this.healthScore < 70) {
+                tips.push('建议使用VPN服务提高网络安全性');
+            }
+            
+            if (this.riskFactors && this.riskFactors.length > 0) {
+                tips.push('您的IP存在安全风险，建议更换网络环境');
+            }
+            
+            if (this.fingerprint?.webdriver) {
+                tips.push('检测到自动化工具，可能影响隐私安全');
+            }
+            
+            if (tips.length === 0) {
+                tips.push('您的网络环境相对安全，保持良好习惯');
+                tips.push('定期检查IP安全状况是个好习惯');
+                tips.push('建议启用防火墙保护您的设备');
+            }
 
-        const tipsContainer = document.getElementById('securityTips');
-        tipsContainer.innerHTML = tips.map(tip => `
-            <div class="tip-item">
-                <span class="tip-icon">💡</span>
-                <span>${tip}</span>
-            </div>
-        `).join('');
+            const tipsContainer = document.getElementById('securityTips');
+            if (tipsContainer) {
+                tipsContainer.innerHTML = tips.map(tip => `
+                    <div class="tip-item">
+                        <span class="tip-icon">💡</span>
+                        <span>${tip}</span>
+                    </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error generating security tips:', error);
+        }
     }
 
     delay(ms) {
