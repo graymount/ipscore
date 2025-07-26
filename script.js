@@ -5,6 +5,7 @@ class IPSecurityAnalyzer {
         this.healthScore = 0;
         this.threatSources = [];
         this.fingerprint = {};
+        this.adBlockDetected = false;
         this.loadingSteps = [
             '初始化安全引擎...',
             '获取IP地址信息...',
@@ -20,8 +21,42 @@ class IPSecurityAnalyzer {
 
     async init() {
         this.showLoadingScreen();
+        this.detectAdBlock();
         await this.runAnalysis();
         this.showDashboard();
+    }
+
+    detectAdBlock() {
+        // 检测广告屏蔽器
+        setTimeout(() => {
+            const adElements = document.querySelectorAll('.adsbygoogle');
+            let blockedCount = 0;
+            
+            adElements.forEach(ad => {
+                if (ad.innerHTML.length === 0 || ad.style.display === 'none' || 
+                    ad.offsetHeight === 0 || !ad.offsetParent) {
+                    blockedCount++;
+                }
+            });
+            
+            if (blockedCount > 0) {
+                this.adBlockDetected = true;
+                this.showAdBlockMessage();
+            }
+        }, 3000);
+    }
+
+    showAdBlockMessage() {
+        const message = document.createElement('div');
+        message.className = 'adblock-notice';
+        message.innerHTML = `
+            <div class="adblock-content">
+                <h3>🚫 检测到广告拦截器</h3>
+                <p>本站依靠广告收入维持免费服务，请考虑将本站加入白名单以支持我们继续提供服务。</p>
+                <button onclick="this.parentElement.parentElement.style.display='none'">我知道了</button>
+            </div>
+        `;
+        document.body.appendChild(message);
     }
 
     showLoadingScreen() {
