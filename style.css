@@ -647,6 +647,59 @@ body {
     transform: translateY(-2px);
 }
 
+/* IP Input Section in Card */
+.ip-input-section-card {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.ip-input-card {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.ip-input-card::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.ip-input-card:focus {
+    outline: none;
+    border-color: #3498db;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+}
+
+.check-btn-card {
+    padding: 12px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.check-btn-card:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
 /* Loading Screen */
 .loading-screen {
     flex: 1;
@@ -1258,6 +1311,17 @@ body {
         width: 100%;
     }
     
+    .ip-input-section-card {
+        flex-direction: column;
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .ip-input-card,
+    .check-btn-card {
+        width: 100%;
+    }
+    
     .card {
         padding: 15px;
     }
@@ -1308,6 +1372,8 @@ body {
 .nav-item:focus,
 .check-btn:focus,
 .ip-input:focus,
+.check-btn-card:focus,
+.ip-input-card:focus,
 .tab-btn:focus,
 .scan-btn:focus,
 .retest-btn:focus {
