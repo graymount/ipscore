@@ -6,7 +6,7 @@
     <title>关于我们 - IP安全评分</title>
     <meta name="description" content="了解IP安全评分平台的使命、愿景和团队。我们致力于为用户提供专业的IP安全威胁检测和分析服务。">
     <link rel="canonical" href="https://www.goodip.info/about.html">
-    <link rel="stylesheet" href="style.css?v=20250726-7">
+    <link rel="stylesheet" href="style.css?v=20250726-8">
     
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2930264481795449"
@@ -54,7 +54,7 @@
                         </script>
                         
                         <!-- Fallback content when ads are blocked -->
-                        <div class="ad-fallback" id="adFallback" style="display: none; padding: 20px; background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%); color: white; border-radius: 12px; text-align: center;">
+                        <div class="ad-fallback" id="adFallback" style="display: block; padding: 20px; background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%); color: white; border-radius: 12px; text-align: center;">
                             <h3 style="color: white; margin-bottom: 15px;">🌟 平台特色功能</h3>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                                 <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
@@ -296,26 +296,43 @@
             }
         });
 
-        // Show fallback content when ads are blocked
-        function showFallbackContent() {
+        // Hide fallback content when ads load successfully
+        function checkAdStatus() {
             setTimeout(() => {
                 const adElements = document.querySelectorAll('.adsbygoogle');
                 adElements.forEach(ad => {
-                    if (ad.innerHTML.length === 0 || ad.offsetHeight === 0) {
+                    // Check if ad loaded successfully
+                    if (ad.innerHTML.length > 0 && ad.offsetHeight > 0 && !ad.style.display === 'none') {
                         const adContainer = ad.closest('.ad-container');
                         if (adContainer) {
                             const fallback = adContainer.querySelector('.ad-fallback');
                             if (fallback) {
-                                fallback.style.display = 'block';
+                                fallback.style.display = 'none';
                             }
                         }
                     }
                 });
-            }, 3000);
+            }, 2000);
+            
+            // Check again after a longer delay
+            setTimeout(() => {
+                const adElements = document.querySelectorAll('.adsbygoogle');
+                adElements.forEach(ad => {
+                    if (ad.innerHTML.length > 0 && ad.offsetHeight > 50) {
+                        const adContainer = ad.closest('.ad-container');
+                        if (adContainer) {
+                            const fallback = adContainer.querySelector('.ad-fallback');
+                            if (fallback) {
+                                fallback.style.display = 'none';
+                            }
+                        }
+                    }
+                });
+            }, 5000);
         }
         
-        // Initialize fallback content check
-        document.addEventListener('DOMContentLoaded', showFallbackContent);
+        // Initialize ad status check
+        document.addEventListener('DOMContentLoaded', checkAdStatus);
 
         // AdSense initialization
         (adsbygoogle = window.adsbygoogle || []).push({});
