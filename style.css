@@ -33,6 +33,56 @@
     height: 100%;
 }
 
+/* Ad Fallback Content */
+.ad-fallback {
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    border: 2px dashed #dee2e6;
+}
+
+.ad-fallback h3 {
+    color: #2a5298;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.security-tips-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.security-tips-content .tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    border-left: 3px solid #3498db;
+}
+
+.security-tips-content .tip-icon {
+    font-size: 1rem;
+    margin-top: 1px;
+}
+
+.tip-footer {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #dee2e6;
+}
+
+.tip-footer small {
+    color: #6c757d;
+    font-style: italic;
+}
+
 /* AdBlock Notice Styles */
 .adblock-notice {
     position: fixed;

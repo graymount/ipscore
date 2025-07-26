@@ -36,6 +36,15 @@ class IPSecurityAnalyzer {
                 if (ad.innerHTML.length === 0 || ad.style.display === 'none' || 
                     ad.offsetHeight === 0 || !ad.offsetParent) {
                     blockedCount++;
+                    
+                    // 显示后备内容
+                    const adCard = ad.closest('.ad-card');
+                    if (adCard) {
+                        const fallback = adCard.querySelector('.ad-fallback');
+                        if (fallback) {
+                            fallback.style.display = 'block';
+                        }
+                    }
                 }
             });
             
@@ -44,6 +53,22 @@ class IPSecurityAnalyzer {
                 this.showAdBlockMessage();
             }
         }, 3000);
+        
+        // 如果5秒后广告还是没有加载，显示后备内容
+        setTimeout(() => {
+            const adElements = document.querySelectorAll('.adsbygoogle');
+            adElements.forEach(ad => {
+                if (ad.innerHTML.length === 0 || ad.offsetHeight === 0) {
+                    const adCard = ad.closest('.ad-card');
+                    if (adCard) {
+                        const fallback = adCard.querySelector('.ad-fallback');
+                        if (fallback) {
+                            fallback.style.display = 'block';
+                        }
+                    }
+                }
+            });
+        }, 5000);
     }
 
     showAdBlockMessage() {
