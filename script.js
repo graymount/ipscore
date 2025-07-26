@@ -26,16 +26,33 @@ class IPSecurityAnalyzer {
     }
 
     showFallbackContent() {
-        // 显示后备内容（无弹窗提示）
+        // 检测广告加载状态并隐藏后备内容（如果广告成功加载）
         setTimeout(() => {
             const adElements = document.querySelectorAll('.adsbygoogle');
             adElements.forEach(ad => {
-                if (ad.innerHTML.length === 0 || ad.offsetHeight === 0) {
-                    const adCard = ad.closest('.ad-card');
-                    if (adCard) {
-                        const fallback = adCard.querySelector('.ad-fallback');
+                // Check if ad loaded successfully
+                if (ad.innerHTML.length > 0 && ad.offsetHeight > 0 && !ad.style.display === 'none') {
+                    const adContainer = ad.closest('.ad-container');
+                    if (adContainer) {
+                        const fallback = adContainer.querySelector('.ad-fallback');
                         if (fallback) {
-                            fallback.style.display = 'block';
+                            fallback.style.display = 'none';
+                        }
+                    }
+                }
+            });
+        }, 2000);
+        
+        // Check again after a longer delay
+        setTimeout(() => {
+            const adElements = document.querySelectorAll('.adsbygoogle');
+            adElements.forEach(ad => {
+                if (ad.innerHTML.length > 0 && ad.offsetHeight > 50) {
+                    const adContainer = ad.closest('.ad-container');
+                    if (adContainer) {
+                        const fallback = adContainer.querySelector('.ad-fallback');
+                        if (fallback) {
+                            fallback.style.display = 'none';
                         }
                     }
                 }
