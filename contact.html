@@ -89,7 +89,6 @@
                         <ins class="adsbygoogle"
                              style="display:block"
                              data-ad-client="ca-pub-2930264481795449"
-                             data-ad-slot="1234567890"
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                         <script>
@@ -307,8 +306,8 @@
             setTimeout(() => {
                 const adElements = document.querySelectorAll('.adsbygoogle');
                 adElements.forEach(ad => {
-                    // Check if ad loaded successfully
-                    if (ad.innerHTML.length > 0 && ad.offsetHeight > 0 && !ad.style.display === 'none') {
+                    // Check if ad loaded successfully - corrected logic
+                    if (ad.innerHTML.length > 0 && ad.offsetHeight > 50 && ad.style.display !== 'none') {
                         const adContainer = ad.closest('.ad-container');
                         if (adContainer) {
                             const fallback = adContainer.querySelector('.ad-fallback');
@@ -324,7 +323,12 @@
             setTimeout(() => {
                 const adElements = document.querySelectorAll('.adsbygoogle');
                 adElements.forEach(ad => {
-                    if (ad.innerHTML.length > 0 && ad.offsetHeight > 50) {
+                    // Check for actual ad content and proper height
+                    const hasAdContent = ad.innerHTML.length > 100; // More strict check
+                    const hasAdHeight = ad.offsetHeight > 100; // Reasonable ad height
+                    const isVisible = ad.style.display !== 'none' && ad.offsetParent !== null;
+                    
+                    if (hasAdContent && hasAdHeight && isVisible) {
                         const adContainer = ad.closest('.ad-container');
                         if (adContainer) {
                             const fallback = adContainer.querySelector('.ad-fallback');
