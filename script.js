@@ -441,12 +441,22 @@ class IPSecurityAnalyzer {
         );
         
         // 调试信息
-        console.log('威胁检测调试:', {
-            threatData: this.threatData,
-            hasCriticalThreats: hasCriticalThreats,
-            hasHighThreats: hasHighThreats,
-            riskFactorsLength: riskFactors.length,
-            currentScore: score
+        console.log('威胁检测调试:');
+        console.log('threatData:', JSON.stringify(this.threatData, null, 2));
+        console.log('hasCriticalThreats:', hasCriticalThreats);
+        console.log('hasHighThreats:', hasHighThreats);
+        console.log('riskFactorsLength:', riskFactors.length);
+        console.log('currentScore:', score);
+        
+        // 逐个检查威胁数据
+        this.threatData.forEach((threat, index) => {
+            console.log(`威胁 ${index}:`, {
+                source: threat.source,
+                isThreat: threat.isThreat,
+                severity: threat.severity,
+                severityType: typeof threat.severity,
+                isCritical: threat.isThreat && threat.severity === 'critical'
+            });
         });
         
         if (riskFactors.length === 0) {
