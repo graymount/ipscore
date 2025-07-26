@@ -396,7 +396,7 @@ class IPSecurityAnalyzer {
         
         // 只有发现真正的威胁才扣分
         if (threatDeduction > 0) {
-            score -= Math.min(threatDeduction, 40); // 最多扣40分
+            score -= threatDeduction; // 移除40分上限，允许扣更多分
         }
 
         // 代理/VPN检测 - 采用ip-score.com的宽松标准
