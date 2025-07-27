@@ -8,9 +8,6 @@
     <link rel="canonical" href="https://www.goodip.info/about.html">
     <link rel="stylesheet" href="style.css?v=20250726-8">
     
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2930264481795449"
-         crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
@@ -40,41 +37,6 @@
                     </div>
                 </div>
 
-                <!-- Ad Banner -->
-                <div class="card-row">
-                    <div class="ad-container">
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-2930264481795449"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                             (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                        
-                        <!-- Fallback content when ads are blocked -->
-                        <div class="ad-fallback" id="adFallback" style="display: block; padding: 20px; background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%); color: white; border-radius: 12px; text-align: center;">
-                            <h3 style="color: white; margin-bottom: 15px;">🌟 平台特色功能</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                                <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                                    <span style="font-size: 1.2rem;">🛡️</span>
-                                    <p style="margin: 8px 0 0; font-size: 0.9rem;">实时威胁情报检测</p>
-                                </div>
-                                <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                                    <span style="font-size: 1.2rem;">🔍</span>
-                                    <p style="margin: 8px 0 0; font-size: 0.9rem;">专业代理VPN识别</p>
-                                </div>
-                                <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                                    <span style="font-size: 1.2rem;">💯</span>
-                                    <p style="margin: 8px 0 0; font-size: 0.9rem;">完全免费使用</p>
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px; font-size: 0.85rem; opacity: 0.8;">
-                                💚 支持本站：请考虑将我们加入广告白名单
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Platform Introduction -->
                 <div class="card-row">
@@ -295,46 +257,6 @@
             }
         });
 
-        // Hide fallback content when ads load successfully
-        function checkAdStatus() {
-            setTimeout(() => {
-                const adElements = document.querySelectorAll('.adsbygoogle');
-                adElements.forEach(ad => {
-                    // Check if ad loaded successfully - corrected logic
-                    if (ad.innerHTML.length > 100 && ad.offsetHeight > 100 && ad.style.display !== 'none' && ad.offsetParent !== null) {
-                        const adContainer = ad.closest('.ad-container');
-                        if (adContainer) {
-                            const fallback = adContainer.querySelector('.ad-fallback');
-                            if (fallback) {
-                                fallback.style.display = 'none';
-                            }
-                        }
-                    }
-                });
-            }, 2000);
-            
-            // Check again after a longer delay
-            setTimeout(() => {
-                const adElements = document.querySelectorAll('.adsbygoogle');
-                adElements.forEach(ad => {
-                    if (ad.innerHTML.length > 0 && ad.offsetHeight > 50) {
-                        const adContainer = ad.closest('.ad-container');
-                        if (adContainer) {
-                            const fallback = adContainer.querySelector('.ad-fallback');
-                            if (fallback) {
-                                fallback.style.display = 'none';
-                            }
-                        }
-                    }
-                });
-            }, 5000);
-        }
-        
-        // Initialize ad status check
-        document.addEventListener('DOMContentLoaded', checkAdStatus);
-
-        // AdSense initialization
-        (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </body>
 </html>
