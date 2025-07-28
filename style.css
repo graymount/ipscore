@@ -594,22 +594,29 @@ body {
 }
 
 .check-btn-card {
-    padding: 12px 20px;
-    background: #3498db;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .check-btn-card:hover {
-    background: #2980b9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    background: linear-gradient(135deg, #2980b9, #21618c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+.check-btn-card:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
 }
 
 /* Loading Screen */
@@ -1225,8 +1232,10 @@ body {
     
     .ip-input-section-card {
         flex-direction: column;
-        padding: 12px;
-        gap: 12px;
+        padding: 20px;
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.35);
+        border: 2px solid rgba(255, 255, 255, 0.6);
     }
     
     .ip-input-card,
