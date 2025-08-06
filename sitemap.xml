@@ -6,30 +6,51 @@
 
     <url>
         <loc>https://www.goodip.info/</loc>
-        <lastmod>2024-12-19</lastmod>
+        <lastmod>2025-08-06</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
 
     <url>
         <loc>https://www.goodip.info/help.html</loc>
-        <lastmod>2024-12-19</lastmod>
+        <lastmod>2025-08-06</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.goodip.info/privacy</loc>
-        <lastmod>2024-12-19</lastmod>
+        <loc>https://www.goodip.info/about.html</loc>
+        <lastmod>2025-08-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.goodip.info/contact.html</loc>
+        <lastmod>2025-08-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <url>
+        <loc>https://www.goodip.info/privacy.html</loc>
+        <lastmod>2025-08-06</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
 
     <url>
-        <loc>https://www.goodip.info/terms</loc>
-        <lastmod>2024-12-19</lastmod>
+        <loc>https://www.goodip.info/terms.html</loc>
+        <lastmod>2025-08-06</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
+    </url>
+
+    <url>
+        <loc>https://www.goodip.info/404.html</loc>
+        <lastmod>2025-08-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
     </url>
 
 </urlset>
