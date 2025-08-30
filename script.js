@@ -6,14 +6,14 @@ class IPSecurityAnalyzer {
         this.threatSources = [];
         this.fingerprint = {};
         this.loadingSteps = [
-            '初始化安全引擎...',
-            '获取IP地址信息...',
-            '检查威胁情报数据库...',
-            '分析网络指纹...',
-            '执行代理检测...',
-            '验证地理位置...',
-            '生成安全评分...',
-            '准备详细报告...'
+            'Initializing security engine...',
+            'Fetching IP address information...',
+            'Checking threat intelligence databases...',
+            'Analyzing network fingerprint...',
+            'Performing proxy detection...',
+            'Verifying geographic location...',
+            'Generating security score...',
+            'Preparing detailed report...'
         ];
         this.currentStep = 0;
     }
@@ -47,7 +47,7 @@ class IPSecurityAnalyzer {
     }
 
     async runAnalysis() {
-        // 并行执行多个检测
+        // Execute multiple detections in parallel
         const [ipData, threatData, fingerprint, networkData] = await Promise.all([
             this.getIPInformation(),
             this.analyzeThreatIntelligence(),
@@ -60,10 +60,10 @@ class IPSecurityAnalyzer {
         this.fingerprint = fingerprint;
         this.networkData = networkData;
 
-        // 计算综合安全评分
+        // Calculate comprehensive security score
         this.calculateSecurityScore();
         
-        // 填充界面数据
+        // Populate interface data
         this.populateDashboard();
     }
 
@@ -71,12 +71,12 @@ class IPSecurityAnalyzer {
         try {
             let ipData = null;
             
-            // 如果已经设置了自定义IP，跳过外部IP检测
+            // If custom IP is already set, skip external IP detection
             if (this.userIP) {
-                console.log('使用自定义IP:', this.userIP);
+                console.log('Using custom IP:', this.userIP);
                 ipData = { ip: this.userIP };
             } else {
-                // 尝试多个IP服务获取最准确的信息
+                // Try multiple IP services to get the most accurate information
                 const services = [
                     'https://api.ipify.org?format=json',
                     'https://ipapi.co/json/',
@@ -98,7 +98,7 @@ class IPSecurityAnalyzer {
                 }
             }
 
-            // 获取更详细的地理位置信息
+            // Get more detailed geographic location information
             if (this.userIP) {
                 try {
                     const geoResponse = await fetch(`https://ipapi.co/${this.userIP}/json/`);
@@ -119,11 +119,11 @@ class IPSecurityAnalyzer {
         if (!this.userIP) return [];
 
         const sources = [
-            { name: '恶意软件数据库', api: 'malware', weight: 40 },
-            { name: '垃圾邮件列表', api: 'spam', weight: 25 },
-            { name: '僵尸网络', api: 'botnet', weight: 35 },
-            { name: '攻击源IP', api: 'attack', weight: 30 },
-            { name: '钓鱼网站', api: 'phishing', weight: 20 }
+            { name: 'Malware Database', api: 'malware', weight: 40 },
+            { name: 'Spam Lists', api: 'spam', weight: 25 },
+            { name: 'Botnet', api: 'botnet', weight: 35 },
+            { name: 'Attack Source IP', api: 'attack', weight: 30 },
+            { name: 'Phishing Websites', api: 'phishing', weight: 20 }
         ];
 
         const results = [];
@@ -405,10 +405,10 @@ class IPSecurityAnalyzer {
         if (proxyInfo.detected && proxyInfo.confidence > 0.9) {
             let proxyDeduction = 0;
             switch (proxyInfo.type) {
-                case 'VPN服务': proxyDeduction = 8; break;  // 进一步降低
-                case '数据中心': proxyDeduction = 5; break;
-                case '云服务器': proxyDeduction = 0; break; // 云服务器不扣分
-                case '托管服务': proxyDeduction = 0; break; // 托管服务不扣分
+                case 'vpn': proxyDeduction = 8; break;
+                case 'datacenter': proxyDeduction = 5; break;
+                case 'cloud': proxyDeduction = 0; break;
+                case 'hosting': proxyDeduction = 0; break;
                 default: proxyDeduction = 3; break;
             }
             if (proxyDeduction > 0) {
@@ -581,13 +581,13 @@ class IPSecurityAnalyzer {
         
         // 检查已知的代理/VPN提供商
         const proxyProviders = [
-            { keywords: ['amazon', 'aws', 'ec2'], type: '云服务器', penalty: 18, weight: 0.8 },
-            { keywords: ['google', 'gcp', 'compute'], type: '云服务器', penalty: 18, weight: 0.8 },
-            { keywords: ['microsoft', 'azure'], type: '云服务器', penalty: 18, weight: 0.8 },
-            { keywords: ['digitalocean', 'linode', 'vultr'], type: '数据中心', penalty: 22, weight: 0.9 },
-            { keywords: ['vpn', 'proxy', 'anonymous'], type: 'VPN服务', penalty: 25, weight: 0.95 },
-            { keywords: ['hosting', 'server', 'datacenter'], type: '托管服务', penalty: 15, weight: 0.7 },
-            { keywords: ['ovh', 'hetzner', 'contabo'], type: '海外托管', penalty: 20, weight: 0.8 }
+            { keywords: ['amazon', 'aws', 'ec2'], type: 'cloud', penalty: 18, weight: 0.8 },
+            { keywords: ['google', 'gcp', 'compute'], type: 'cloud', penalty: 18, weight: 0.8 },
+            { keywords: ['microsoft', 'azure'], type: 'cloud', penalty: 18, weight: 0.8 },
+            { keywords: ['digitalocean', 'linode', 'vultr'], type: 'datacenter', penalty: 22, weight: 0.9 },
+            { keywords: ['vpn', 'proxy', 'anonymous'], type: 'vpn', penalty: 25, weight: 0.95 },
+            { keywords: ['hosting', 'server', 'datacenter'], type: 'hosting', penalty: 15, weight: 0.7 },
+            { keywords: ['ovh', 'hetzner', 'contabo'], type: 'overseas', penalty: 20, weight: 0.8 }
         ];
 
         for (const provider of proxyProviders) {
@@ -607,7 +607,7 @@ class IPSecurityAnalyzer {
             const suspiciousASNs = [
                 { min: 13335, max: 13335, type: 'CDN服务', weight: 0.3 }, // Cloudflare
                 { min: 14061, max: 14061, type: 'CDN服务', weight: 0.3 }, // DigitalOcean
-                { min: 16509, max: 16509, type: '云服务器', weight: 0.7 }  // Amazon
+                { min: 16509, max: 16509, type: 'cloud', weight: 0.7 }  // Amazon
             ];
             
             for (const asnRange of suspiciousASNs) {
@@ -787,16 +787,16 @@ class IPSecurityAnalyzer {
         
         if (this.healthScore >= 90) {
             scoreClass = 'excellent';
-            statusText = '安全优秀';
+            statusText = window.i18n.t('status.excellent');
         } else if (this.healthScore >= 75) {
             scoreClass = 'good';
-            statusText = '安全良好';
+            statusText = window.i18n.t('status.good');
         } else if (this.healthScore >= 60) {
             scoreClass = 'average';
-            statusText = '安全一般';
+            statusText = window.i18n.t('status.average');
         } else {
             scoreClass = 'poor';
-            statusText = '存在风险';
+            statusText = window.i18n.t('status.poor');
         }
 
         scoreCircle.className = `score-circle ${scoreClass}`;
@@ -841,7 +841,7 @@ class IPSecurityAnalyzer {
                     const item = document.createElement('div');
                     item.className = 'check-item';
                     
-                    const status = `<span class="status clear">安全</span>`;
+                    const status = `<span class="status clear">${window.i18n.t('status.clear')}</span>`;
                     
                     item.innerHTML = `
                         <span>${threat.source}</span>
@@ -860,7 +860,7 @@ class IPSecurityAnalyzer {
                 
                 const status = threat.isThreat ? 
                     `<span class="status threat">${threat.severity}</span>` :
-                    `<span class="status clear">安全</span>`;
+                    `<span class="status clear">${window.i18n.t('status.clear')}</span>`;
                 
                 item.innerHTML = `
                     <span>${threat.source}</span>
@@ -871,6 +871,18 @@ class IPSecurityAnalyzer {
         });
     }
 
+    getProxyTypeDisplayName(type) {
+        const typeMap = {
+            'cloud': window.i18n.t('proxytype.cloud'),
+            'datacenter': window.i18n.t('proxytype.datacenter'),
+            'vpn': window.i18n.t('proxytype.vpn'),
+            'hosting': window.i18n.t('proxytype.hosting'),
+            'overseas': window.i18n.t('proxytype.overseas'),
+            'direct': window.i18n.t('proxytype.direct')
+        };
+        return typeMap[type] || type;
+    }
+
     populateProxyDetection() {
         const proxyTypeElement = document.getElementById('proxyType');
         const anonymityLevel = document.getElementById('anonymityLevel');
@@ -879,19 +891,19 @@ class IPSecurityAnalyzer {
 
         const proxyInfo = this.detectProxy();
         
-        proxyTypeElement.textContent = proxyInfo.type;
-        anonymityLevel.textContent = proxyInfo.detected ? '高' : '无';
+        proxyTypeElement.textContent = this.getProxyTypeDisplayName(proxyInfo.type || 'direct');
+        anonymityLevel.textContent = proxyInfo.detected ? window.i18n.t('proxy.high') : window.i18n.t('proxy.none');
         proxyProtocol.textContent = proxyInfo.detected ? 'HTTP/SOCKS' : 'Direct';
         
-        // 根据代理类型设置风险等级
-        let riskLevel = '低';
+        // Set risk level based on proxy type
+        let riskLevel = window.i18n.t('proxy.low');
         if (proxyInfo.detected) {
-            if (proxyInfo.type === 'VPN服务' || proxyInfo.type === '数据中心') {
-                riskLevel = '高';
-            } else if (proxyInfo.type === '云服务器' || proxyInfo.type === '海外托管') {
-                riskLevel = '中等';
+            if (proxyInfo.type === 'vpn' || proxyInfo.type === 'datacenter') {
+                riskLevel = window.i18n.t('proxy.high');
+            } else if (proxyInfo.type === 'cloud' || proxyInfo.type === 'overseas') {
+                riskLevel = window.i18n.t('proxy.medium');
             } else {
-                riskLevel = '中等';
+                riskLevel = window.i18n.t('proxy.medium');
             }
         }
         
@@ -988,21 +1000,21 @@ class IPSecurityAnalyzer {
             const tips = [];
             
             if (this.healthScore < 70) {
-                tips.push('建议使用VPN服务提高网络安全性');
+                tips.push(window.i18n.t('tips.vpn'));
             }
             
             if (this.riskFactors && this.riskFactors.length > 0) {
-                tips.push('您的IP存在安全风险，建议更换网络环境');
+                tips.push(window.i18n.t('tips.risks'));
             }
             
             if (this.fingerprint?.webdriver) {
-                tips.push('检测到自动化工具，可能影响隐私安全');
+                tips.push(window.i18n.t('tips.automation'));
             }
             
             if (tips.length === 0) {
-                tips.push('您的网络环境相对安全，保持良好习惯');
-                tips.push('定期检查IP安全状况是个好习惯');
-                tips.push('建议启用防火墙保护您的设备');
+                tips.push(window.i18n.t('tips.safe'));
+                tips.push('Regular IP security checks are a good habit');
+                tips.push('Enable firewall to protect your device');
             }
 
             const tipsContainer = document.getElementById('securityTips');
@@ -1157,14 +1169,14 @@ async function startPortScan() {
             }
             
             // 更新进度
-            resultsDiv.innerHTML = `<div style="text-align: center;">检测进度: ${results.length}/${services.length}</div>`;
+            resultsDiv.innerHTML = `<div style="text-align: center;">Detection progress: ${results.length}/${services.length}</div>`;
             await analyzer.delay(200);
         }
         
         // 显示结果
         resultsDiv.innerHTML = results.map(result => `
             <div style="display: flex; justify-content: space-between; margin: 5px 0; padding: 8px; background: #f8f9fa; border-radius: 4px;">
-                <span><strong>${result.service}</strong> (端口 ${result.port})</span>
+                <span><strong>${result.service}</strong> (Port ${result.port})</span>
                 <div style="text-align: right;">
                     <span class="status ${getStatusClass(result.status)}">${getStatusText(result.status)}</span>
                     ${result.latency !== 'N/A' ? `<br><small>${result.latency}ms</small>` : ''}
@@ -1172,15 +1184,15 @@ async function startPortScan() {
             </div>
         `).join('') + 
         '<div style="margin-top: 15px; padding: 10px; background: #e8f4fd; border-radius: 4px; font-size: 0.9em;">' +
-        '<strong>注意:</strong> 由于浏览器安全限制，这里显示的是服务可达性测试，而非真实端口扫描。' +
+        '<strong>Note:</strong> Due to browser security restrictions, this shows service reachability tests rather than actual port scanning.' +
         '</div>';
         
     } catch (error) {
-        resultsDiv.innerHTML = `<div style="color: #e74c3c;">检测失败: ${error.message}</div>`;
+        resultsDiv.innerHTML = `<div style="color: #e74c3c;">Detection failed: ${error.message}</div>`;
     }
     
     scanBtn.disabled = false;
-    scanBtn.textContent = '重新检测';
+    scanBtn.textContent = window.i18n.t('button.rescan');
 }
 
 function getStatusClass(status) {
@@ -1195,11 +1207,11 @@ function getStatusClass(status) {
 
 function getStatusText(status) {
     switch (status) {
-        case 'accessible': return '可访问';
-        case 'timeout': return '超时';
-        case 'blocked': return '被阻止';
-        case 'error': return '错误';
-        default: return '未知';
+        case 'accessible': return 'Accessible';
+        case 'timeout': return 'Timeout';
+        case 'blocked': return 'Blocked';
+        case 'error': return 'Error';
+        default: return 'Unknown';
     }
 }
 
@@ -1212,7 +1224,7 @@ function showDashboard(event) {
     event.target.classList.add('active');
     
     // 更新页面标题
-    document.title = 'IP安全评分 - 专业IP安全威胁检测与分析平台';
+    document.title = 'IP Security Score - Professional IP Security Threat Detection & Analysis Platform';
 }
 
 // 页面加载完成后自动开始
