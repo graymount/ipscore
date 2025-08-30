@@ -19,23 +19,17 @@ class IPSecurityAnalyzer {
     }
 
     async init() {
-        console.log('[DEBUG] Starting IPSecurityAnalyzer.init()');
         try {
             this.showLoadingScreen();
-            console.log('[DEBUG] Loading screen shown');
             
             // Set a maximum timeout for the entire initialization
-            const maxTimeout = 15000; // 15 seconds max
+            const maxTimeout = 10000; // 10 seconds max for better UX
             
             const timeoutPromise = new Promise((_, reject) => {
-                setTimeout(() => {
-                    console.log('[DEBUG] Initialization timeout reached after 15 seconds');
-                    reject(new Error('Initialization timeout'));
-                }, maxTimeout);
+                setTimeout(() => reject(new Error('Initialization timeout')), maxTimeout);
             });
             
             // Run progress animation and analysis in parallel
-            console.log('[DEBUG] Starting progress animation and analysis');
             const progressPromise = this.updateProgress();
             const analysisPromise = this.runAnalysis();
             
@@ -45,7 +39,6 @@ class IPSecurityAnalyzer {
                 timeoutPromise
             ]);
             
-            console.log('[DEBUG] Analysis complete, showing dashboard');
             this.showDashboard();
         } catch (error) {
             console.error('Error during IP analysis:', error);
@@ -75,71 +68,35 @@ class IPSecurityAnalyzer {
     }
 
     showLoadingScreen() {
-        console.log('[DEBUG] showLoadingScreen called');
-        const loadingScreen = document.getElementById('loadingScreen');
-        const dashboard = document.getElementById('dashboard');
-        
-        if (!loadingScreen || !dashboard) {
-            console.error('[DEBUG] Required elements not found!');
-            console.error('[DEBUG] loadingScreen:', loadingScreen);
-            console.error('[DEBUG] dashboard:', dashboard);
-            return;
-        }
-        
-        loadingScreen.style.display = 'flex';
-        dashboard.style.display = 'none';
-        console.log('[DEBUG] Loading screen display set');
+        document.getElementById('loadingScreen').style.display = 'flex';
+        document.getElementById('dashboard').style.display = 'none';
     }
 
     showDashboard() {
-        console.log('[DEBUG] showDashboard called');
-        const loadingScreen = document.getElementById('loadingScreen');
-        const dashboard = document.getElementById('dashboard');
-        
-        if (!loadingScreen || !dashboard) {
-            console.error('[DEBUG] Dashboard elements not found!');
-            return;
-        }
-        
-        loadingScreen.style.display = 'none';
-        dashboard.style.display = 'block';
-        console.log('[DEBUG] Dashboard displayed');
+        document.getElementById('loadingScreen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
         
         // Force i18n update when dashboard is shown
         setTimeout(() => {
-            if (window.i18n && window.i18n.updatePageLanguage) {
-                window.i18n.updatePageLanguage();
-                console.log('[DEBUG] i18n updated');
-            }
+            window.i18n.updatePageLanguage();
         }, 100);
     }
 
     async updateProgress() {
-        console.log('[DEBUG] updateProgress started');
         const progressFill = document.getElementById('progressFill');
         const loadingStatus = document.getElementById('loadingStatus');
         
-        if (!progressFill || !loadingStatus) {
-            console.error('[DEBUG] Progress elements not found!');
-            console.error('[DEBUG] progressFill:', progressFill);
-            console.error('[DEBUG] loadingStatus:', loadingStatus);
-            return;
-        }
-        
         for (let i = 0; i < this.loadingSteps.length; i++) {
-            console.log(`[DEBUG] Progress step ${i+1}/${this.loadingSteps.length}: ${this.loadingSteps[i]}`);
             loadingStatus.textContent = this.loadingSteps[i];
             progressFill.style.width = `${((i + 1) / this.loadingSteps.length) * 100}%`;
-            await this.delay(800 + Math.random() * 600);
+            await this.delay(400 + Math.random() * 300); // Reduced delay for faster loading
         }
-        console.log('[DEBUG] updateProgress completed');
     }
 
     async runAnalysis() {
-        console.log('[DEBUG] runAnalysis started');
         try {
             // Add timeout wrapper for all operations
-            const timeoutPromise = (promise, timeoutMs = 10000) => {
+            const timeoutPromise = (promise, timeoutMs = 5000) => { // Reduced timeout for faster response
                 return Promise.race([
                     promise,
                     new Promise((_, reject) => 
@@ -194,16 +151,13 @@ class IPSecurityAnalyzer {
     }
 
     async getIPInformation() {
-        console.log('[DEBUG] getIPInformation started');
         try {
             let ipData = null;
             
             // If custom IP is already set, skip external IP detection
             if (this.userIP) {
-                console.log('[DEBUG] Using custom IP:', this.userIP);
                 ipData = { ip: this.userIP };
             } else {
-                console.log('[DEBUG] Starting IP detection from external services');
                 // Try multiple IP services to get the most accurate information
                 const services = [
                     'https://api.ipify.org?format=json',
@@ -229,7 +183,6 @@ class IPSecurityAnalyzer {
                             break;
                         }
                     } catch (error) {
-                        console.log(`Service ${service} failed:`, error);
                         continue;
                     }
                 }
@@ -250,7 +203,7 @@ class IPSecurityAnalyzer {
                     const geoData = await geoResponse.json();
                     ipData = { ...ipData, ...geoData };
                 } catch (error) {
-                    console.log('Geo data fetch failed:', error);
+                    // Geo data fetch failed silently
                 }
                 
                 // If all services fail, try a simple text-based service as last resort
@@ -271,7 +224,7 @@ class IPSecurityAnalyzer {
                             this.userIP = ipText;
                         }
                     } catch (error) {
-                        console.log('Fallback IP detection failed:', error);
+                        // Fallback IP detection failed silently
                     }
                 }
             }
@@ -283,11 +236,7 @@ class IPSecurityAnalyzer {
     }
 
     async analyzeThreatIntelligence() {
-        // Don't depend on userIP being set, as it might fail
-        if (!this.userIP) {
-            console.log('No user IP available for threat analysis');
-            return [];
-        }
+        if (!this.userIP) return [];
 
         const sources = [
             { name: 'Malware Database', api: 'malware', weight: 40 },
@@ -1221,18 +1170,8 @@ class IPSecurityAnalyzer {
 let analyzer;
 
 async function startTest() {
-    console.log('[DEBUG] startTest() called');
-    try {
-        analyzer = new IPSecurityAnalyzer();
-        console.log('[DEBUG] IPSecurityAnalyzer instance created');
-        await analyzer.init();
-        console.log('[DEBUG] analyzer.init() completed');
-    } catch (error) {
-        console.error('[DEBUG] Error in startTest:', error);
-        // Show error UI
-        document.getElementById('loadingScreen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-    }
+    analyzer = new IPSecurityAnalyzer();
+    await analyzer.init();
 }
 
 async function checkCustomIP() {
@@ -1420,25 +1359,8 @@ function showDashboard(event) {
 
 // 页面加载完成后自动开始
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DEBUG] DOMContentLoaded event fired');
-    try {
-        // Check if i18n is loaded
-        if (typeof window.i18n === 'undefined') {
-            console.error('[DEBUG] i18n not loaded!');
-            console.error('[DEBUG] Check if i18n.js is included before script.js');
-        } else {
-            console.log('[DEBUG] i18n is loaded');
-            // Force English language update
-            console.log('[DEBUG] Setting language to English');
-            window.i18n.setLanguage('en');
-            window.i18n.updatePageLanguage();
-        }
-        
-        console.log('[DEBUG] Calling startTest()');
-        startTest();
-    } catch (error) {
-        console.error('[DEBUG] Error in DOMContentLoaded:', error);
-        // Try to start anyway
-        startTest();
-    }
+    // Force English language update
+    window.i18n.setLanguage('en');
+    window.i18n.updatePageLanguage();
+    startTest();
 });
