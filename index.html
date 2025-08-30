@@ -134,6 +134,33 @@
     <script>
         // Modern AdSense auto ads are enabled automatically with the script tag above
         // No need for manual enable_page_level_ads push
+        
+        // Suppress known third-party errors from ad networks
+        window.addEventListener('error', function(e) {
+            // Suppress 2mdn.net (Google ads) errors
+            if (e.message && (e.message.includes('2mdn.net') || e.message.includes('mraid.js'))) {
+                e.preventDefault();
+                return true;
+            }
+        });
+        
+        // Suppress script loading errors from ad networks
+        document.addEventListener('error', function(e) {
+            if (e.target && e.target.src && (e.target.src.includes('2mdn.net') || e.target.src.includes('sadbundle'))) {
+                e.preventDefault();
+                e.stopPropagation();
+                return true;
+            }
+        }, true);
+        
+        // Suppress SecurityPolicyViolation events from ad networks
+        window.addEventListener('securitypolicyviolation', function(e) {
+            if (e.blockedURI && e.blockedURI.includes('2mdn.net')) {
+                e.preventDefault();
+                e.stopPropagation();
+                return true;
+            }
+        });
     </script>
 </head>
 <body>

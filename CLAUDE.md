@@ -198,3 +198,7 @@ Due to browser CORS restrictions, the application:
 - Timeout controls on external API calls
 - Progressive loading with visual feedback
 - Caching strategies via _headers configuration
+## Known Issues
+
+### Google AdSense MRAID Errors
+The console may show errors from `s0.2mdn.net/sadbundle/.../mraid.js`. These are third-party errors from Google's ad infrastructure and cannot be fixed in our code. Error suppressors have been added to index.html to minimize console noise. See KNOWN_ISSUES.md for details.
