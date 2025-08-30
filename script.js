@@ -811,6 +811,14 @@ class IPSecurityAnalyzer {
 
         scoreCircle.className = `score-circle ${scoreClass}`;
         scoreStatus.textContent = statusText;
+        
+        // Remove any data-i18n attribute to prevent i18n override
+        scoreStatus.removeAttribute('data-i18n');
+        
+        // Force English status text with additional timeout
+        setTimeout(() => {
+            scoreStatus.textContent = statusText;
+        }, 100);
     }
 
     animateScore(element, targetScore) {
