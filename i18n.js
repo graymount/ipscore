@@ -152,6 +152,7 @@ class I18n {
                 'proxytype.hosting': 'Hosting Service',
                 'proxytype.overseas': 'Overseas Hosting',
                 'proxytype.direct': 'Direct Connection',
+                'proxytype.cdn': 'CDN Service',
 
                 // Geographic Status
                 'geo.consistent': 'Location Consistent',

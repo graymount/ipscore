@@ -409,12 +409,14 @@ class IPSecurityAnalyzer {
                 case 'datacenter': proxyDeduction = 5; break;
                 case 'cloud': proxyDeduction = 0; break;
                 case 'hosting': proxyDeduction = 0; break;
+                case 'overseas': proxyDeduction = 3; break;
+                case 'cdn': proxyDeduction = 0; break;
                 default: proxyDeduction = 3; break;
             }
             if (proxyDeduction > 0) {
                 score -= proxyDeduction;
                 riskFactors.push(proxyInfo.type);
-                debugInfo.deductions.push(`代理检测-${proxyInfo.type}: -${proxyDeduction}`);
+                debugInfo.deductions.push(`Proxy Detection-${proxyInfo.type}: -${proxyDeduction}`);
             }
         }
 
@@ -428,7 +430,7 @@ class IPSecurityAnalyzer {
             debugInfo.deductions.push(`地理位置: -${geoDeduction}`);
         }
 
-        // ISP分析 - 不扣分（ip-score.com似乎不按ISP类型扣分）
+        // ISP analysis - no deduction (ip-score.com doesn't seem to deduct by ISP type)
         const ispAnalysis = this.analyzeISP();
         // 移除ISP相关的扣分，保持与ip-score.com一致
 
@@ -531,20 +533,20 @@ class IPSecurityAnalyzer {
         html += `
             <h4>📋 检测项目状态</h4>
             <div class="debug-item ${this.threatData?.every(t => !t.isThreat) ? 'safe' : 'deduction'}">
-                <span>威胁情报检测:</span>
-                <span>${this.threatData?.filter(t => t.isThreat).length || 0}/${this.threatData?.length || 0} 发现威胁</span>
+                <span>Threat Intelligence:</span>
+                <span>${this.threatData?.filter(t => t.isThreat).length || 0}/${this.threatData?.length || 0} threats found</span>
             </div>
             <div class="debug-item ${!this.detectProxy().detected ? 'safe' : 'deduction'}">
-                <span>代理/VPN检测:</span>
-                <span>${this.detectProxy().detected ? `检测到${this.detectProxy().type}` : '直接连接'}</span>
+                <span>Proxy/VPN Detection:</span>
+                <span>${this.detectProxy().detected ? `Detected ${this.getProxyTypeDisplayName(this.detectProxy().type)}` : 'Direct Connection'}</span>
             </div>
             <div class="debug-item ${this.checkGeoConsistency().consistent ? 'safe' : 'deduction'}">
-                <span>地理位置检测:</span>
-                <span>${this.checkGeoConsistency().consistent ? '位置一致' : '位置异常'}</span>
+                <span>Geographic Detection:</span>
+                <span>${this.checkGeoConsistency().consistent ? 'Location Consistent' : 'Location Anomaly'}</span>
             </div>
             <div class="debug-item ${this.analyzeISP().adjustment >= 0 ? 'safe' : 'deduction'}">
-                <span>ISP分析:</span>
-                <span>${this.analyzeISP().riskFactor || '正常ISP'}</span>
+                <span>ISP Analysis:</span>
+                <span>${this.analyzeISP().riskFactor || 'Normal ISP'}</span>
             </div>
         `;
 
@@ -552,7 +554,7 @@ class IPSecurityAnalyzer {
     }
 
     detectProxy() {
-        // 基于IP数据和网络特征进行代理检测
+        // Proxy detection based on IP data and network characteristics
         const proxyIndicators = this.analyzeProxyIndicators();
         
         if (proxyIndicators.score > 0.7) {
@@ -564,12 +566,12 @@ class IPSecurityAnalyzer {
             };
         }
         
-        return { detected: false, type: '直连', penalty: 0, confidence: 1 - proxyIndicators.score };
+        return { detected: false, type: 'direct', penalty: 0, confidence: 1 - proxyIndicators.score };
     }
 
     analyzeProxyIndicators() {
         let score = 0;
-        let detectedType = '直连';
+        let detectedType = 'direct';
         let penalty = 0;
 
         if (!this.ipData) {
@@ -605,8 +607,8 @@ class IPSecurityAnalyzer {
             const asn = parseInt(this.ipData.asn.replace(/\D/g, ''));
             // 已知的VPN/代理ASN范围
             const suspiciousASNs = [
-                { min: 13335, max: 13335, type: 'CDN服务', weight: 0.3 }, // Cloudflare
-                { min: 14061, max: 14061, type: 'CDN服务', weight: 0.3 }, // DigitalOcean
+                { min: 13335, max: 13335, type: 'cdn', weight: 0.3 }, // Cloudflare
+                { min: 14061, max: 14061, type: 'cdn', weight: 0.3 }, // DigitalOcean
                 { min: 16509, max: 16509, type: 'cloud', weight: 0.7 }  // Amazon
             ];
             
@@ -743,7 +745,7 @@ class IPSecurityAnalyzer {
         // 填充威胁情报
         this.populateThreatIntelligence();
         
-        // 填充代理检测
+        // Populate proxy detection
         this.populateProxyDetection();
         
         // 填充地理位置信息
@@ -1047,13 +1049,13 @@ async function startTest() {
 async function checkCustomIP() {
     const customIP = document.getElementById('customIP').value.trim();
     if (!customIP) {
-        alert('请输入有效的IP地址');
+        alert('Please enter a valid IP address');
         return;
     }
     
     // 验证IP地址格式
     if (!isValidIP(customIP)) {
-        alert('请输入有效的IPv4地址格式（如：192.168.1.1）');
+        alert('Please enter a valid IPv4 address format (e.g.: 192.168.1.1)');
         return;
     }
     
@@ -1083,8 +1085,8 @@ async function checkCustomIP() {
         document.getElementById('customIP').value = '';
         
     } catch (error) {
-        console.error('自定义IP检测失败:', error);
-        alert(`检测失败: ${error.message}`);
+        console.error('Custom IP detection failed:', error);
+        alert(`Detection failed: ${error.message}`);
         
         // 隐藏加载界面
         document.getElementById('loadingScreen').style.display = 'none';
