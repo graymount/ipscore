@@ -1,14 +1,14 @@
 {
-  "name": "IP安全评分 - 专业IP安全评估平台",
+  "name": "IP Security Score - Professional IP Security Assessment Platform",
   "short_name": "IP Security",
-  "description": "专业的IP地址安全检测平台，提供实时威胁情报分析、代理VPN检测、地理位置验证等服务",
+  "description": "Professional IP address security detection platform providing real-time threat intelligence analysis, proxy/VPN detection, geographic verification and more",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1e3c72",
   "theme_color": "#2a5298",
   "orientation": "portrait-primary",
   "scope": "/",
-  "lang": "zh-CN",
+  "lang": "en",
   "categories": ["security", "utilities", "productivity"],
   "icons": [
     {
@@ -41,9 +41,9 @@
   ],
   "shortcuts": [
     {
-      "name": "检测我的IP",
+      "name": "Check My IP",
       "short_name": "My IP",
-      "description": "快速检测当前IP地址的安全状况",
+      "description": "Quickly check the security status of your current IP address",
       "url": "/",
       "icons": [
         {
@@ -53,9 +53,9 @@
       ]
     },
     {
-      "name": "自定义IP检测",
+      "name": "Custom IP Check",
       "short_name": "Custom IP",
-      "description": "检测指定IP地址的安全状况",
+      "description": "Check the security status of a specific IP address",
       "url": "/?custom=true",
       "icons": [
         {

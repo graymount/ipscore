@@ -26,7 +26,7 @@ class I18n {
             return browserLang;
         }
 
-        // Default to English
+        // Default to English (changed from Chinese)
         return 'en';
     }
 
