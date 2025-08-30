@@ -19,9 +19,52 @@ class IPSecurityAnalyzer {
     }
 
     async init() {
-        this.showLoadingScreen();
-        await this.runAnalysis();
-        this.showDashboard();
+        try {
+            this.showLoadingScreen();
+            
+            // Set a maximum timeout for the entire initialization
+            const maxTimeout = 15000; // 15 seconds max
+            
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Initialization timeout')), maxTimeout);
+            });
+            
+            // Run progress animation and analysis in parallel
+            const progressPromise = this.updateProgress();
+            const analysisPromise = this.runAnalysis();
+            
+            // Wait for both to complete or timeout
+            await Promise.race([
+                Promise.all([progressPromise, analysisPromise]),
+                timeoutPromise
+            ]);
+            
+            this.showDashboard();
+        } catch (error) {
+            console.error('Error during IP analysis:', error);
+            // Force completion of the loading process
+            this.currentStep = this.loadingSteps.length;
+            
+            // Set default values if not already set
+            if (!this.ipData) {
+                this.ipData = { ip: 'Detection Failed', country: 'Unknown' };
+            }
+            if (!this.healthScore) {
+                this.healthScore = 50;
+            }
+            
+            // Show dashboard even if there's an error
+            this.showDashboard();
+            
+            // Populate with error state
+            this.populateDashboard();
+            
+            // Display error message to user
+            const errorElement = document.querySelector('.health-score');
+            if (errorElement) {
+                errorElement.textContent = 'Error: Analysis timeout';
+            }
+        }
     }
 
     showLoadingScreen() {
@@ -52,27 +95,60 @@ class IPSecurityAnalyzer {
     }
 
     async runAnalysis() {
-        // Execute multiple detections in parallel
-        const [ipData, threatData, fingerprint, networkData] = await Promise.all([
-            this.getIPInformation(),
-            this.analyzeThreatIntelligence(),
-            this.generateDeviceFingerprint(),
-            this.analyzeNetworkInfo()
-        ]);
+        try {
+            // Add timeout wrapper for all operations
+            const timeoutPromise = (promise, timeoutMs = 10000) => {
+                return Promise.race([
+                    promise,
+                    new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Operation timeout')), timeoutMs)
+                    )
+                ]);
+            };
 
-        this.ipData = ipData;
-        this.threatData = threatData;
-        this.fingerprint = fingerprint;
-        this.networkData = networkData;
+            // Execute multiple detections in parallel with timeout
+            const [ipData, threatData, fingerprint, networkData] = await Promise.all([
+                timeoutPromise(this.getIPInformation()).catch(err => {
+                    console.error('IP detection failed:', err);
+                    return { ip: 'Detection Failed', country: 'Unknown' };
+                }),
+                timeoutPromise(this.analyzeThreatIntelligence()).catch(err => {
+                    console.error('Threat analysis failed:', err);
+                    return [];
+                }),
+                timeoutPromise(this.generateDeviceFingerprint()).catch(err => {
+                    console.error('Fingerprint failed:', err);
+                    return {};
+                }),
+                timeoutPromise(this.analyzeNetworkInfo()).catch(err => {
+                    console.error('Network analysis failed:', err);
+                    return {};
+                })
+            ]);
 
-        // Calculate comprehensive security score
-        this.calculateSecurityScore();
-        
-        // Populate interface data
-        this.populateDashboard();
-        
-        // Force i18n update after all content is populated
-        window.i18n.updatePageLanguage();
+            this.ipData = ipData;
+            this.threatData = threatData;
+            this.fingerprint = fingerprint;
+            this.networkData = networkData;
+
+            // Calculate comprehensive security score
+            this.calculateSecurityScore();
+            
+            // Populate interface data
+            this.populateDashboard();
+            
+            // Force i18n update after all content is populated
+            window.i18n.updatePageLanguage();
+        } catch (error) {
+            console.error('Critical error in runAnalysis:', error);
+            // Set default values to prevent stuck state
+            this.ipData = { ip: 'Error', country: 'Unknown' };
+            this.threatData = [];
+            this.fingerprint = {};
+            this.networkData = {};
+            this.calculateSecurityScore();
+            this.populateDashboard();
+        }
     }
 
     async getIPInformation() {
@@ -93,7 +169,15 @@ class IPSecurityAnalyzer {
 
                 for (const service of services) {
                     try {
-                        const response = await fetch(service);
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 5000);
+                        
+                        const response = await fetch(service, { 
+                            signal: controller.signal,
+                            mode: 'cors'
+                        });
+                        clearTimeout(timeoutId);
+                        
                         const data = await response.json();
                         if (data.ip) {
                             ipData = { ...ipData, ...data };
@@ -101,6 +185,7 @@ class IPSecurityAnalyzer {
                             break;
                         }
                     } catch (error) {
+                        console.log(`Service ${service} failed:`, error);
                         continue;
                     }
                 }
@@ -109,11 +194,41 @@ class IPSecurityAnalyzer {
             // Get more detailed geographic location information
             if (this.userIP) {
                 try {
-                    const geoResponse = await fetch(`https://ipapi.co/${this.userIP}/json/`);
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 5000);
+                    
+                    const geoResponse = await fetch(`https://ipapi.co/${this.userIP}/json/`, {
+                        signal: controller.signal,
+                        mode: 'cors'
+                    });
+                    clearTimeout(timeoutId);
+                    
                     const geoData = await geoResponse.json();
                     ipData = { ...ipData, ...geoData };
                 } catch (error) {
-                    console.log('Geo data fetch failed');
+                    console.log('Geo data fetch failed:', error);
+                }
+                
+                // If all services fail, try a simple text-based service as last resort
+                if (!ipData || !ipData.ip) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 3000);
+                        
+                        const response = await fetch('https://api.ipify.org', { 
+                            signal: controller.signal,
+                            mode: 'cors'
+                        });
+                        clearTimeout(timeoutId);
+                        
+                        const ipText = await response.text();
+                        if (ipText && ipText.match(/^\d+\.\d+\.\d+\.\d+$/)) {
+                            ipData = { ip: ipText };
+                            this.userIP = ipText;
+                        }
+                    } catch (error) {
+                        console.log('Fallback IP detection failed:', error);
+                    }
                 }
             }
 
@@ -124,7 +239,11 @@ class IPSecurityAnalyzer {
     }
 
     async analyzeThreatIntelligence() {
-        if (!this.userIP) return [];
+        // Don't depend on userIP being set, as it might fail
+        if (!this.userIP) {
+            console.log('No user IP available for threat analysis');
+            return [];
+        }
 
         const sources = [
             { name: 'Malware Database', api: 'malware', weight: 40 },
