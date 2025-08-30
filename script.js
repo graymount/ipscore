@@ -33,6 +33,11 @@ class IPSecurityAnalyzer {
     showDashboard() {
         document.getElementById('loadingScreen').style.display = 'none';
         document.getElementById('dashboard').style.display = 'block';
+        
+        // Force i18n update when dashboard is shown
+        setTimeout(() => {
+            window.i18n.updatePageLanguage();
+        }, 100);
     }
 
     async updateProgress() {
@@ -65,6 +70,9 @@ class IPSecurityAnalyzer {
         
         // Populate interface data
         this.populateDashboard();
+        
+        // Force i18n update after all content is populated
+        window.i18n.updatePageLanguage();
     }
 
     async getIPInformation() {
@@ -934,7 +942,7 @@ class IPSecurityAnalyzer {
     }
 
     populateNetworkInfo() {
-        // DNS信息
+        // DNS information
         const dnsList = document.getElementById('dnsList');
         dnsList.innerHTML = this.networkData.dns.map(dns => `
             <div class="dns-item">
@@ -943,15 +951,15 @@ class IPSecurityAnalyzer {
             </div>
         `).join('');
 
-        // 时区信息
+        // Timezone information
         document.getElementById('localTime').textContent = 
-            new Date().toLocaleString('zh-CN', { timeZone: this.networkData.timeZone });
+            new Date().toLocaleString('en-US', { timeZone: this.networkData.timeZone });
         document.getElementById('browserTime').textContent = 
-            new Date().toLocaleString('zh-CN');
+            new Date().toLocaleString('en-US');
 
-        // 网络性能
+        // Network performance
         document.getElementById('latency').textContent = 
-            `${this.networkData.latency}ms` || '未知';
+            `${this.networkData.latency}ms` || 'Unknown';
         document.getElementById('mtu').textContent = '1500'; // 默认值
     }
 
@@ -959,7 +967,7 @@ class IPSecurityAnalyzer {
         try {
             const fingerprints = [
                 { id: 'userAgent', value: this.fingerprint?.userAgent?.substring(0, 80) + '...' || 'Unknown' },
-                { id: 'webDriver', value: this.fingerprint?.webdriver ? '是' : '否' },
+                { id: 'webDriver', value: this.fingerprint?.webdriver ? 'Yes' : 'No' },
                 { id: 'language', value: this.fingerprint?.language || 'Unknown' },
                 { id: 'colorDepth', value: this.fingerprint?.colorDepth ? `${this.fingerprint.colorDepth} bits` : 'Unknown' },
                 { id: 'deviceMemory', value: this.fingerprint?.deviceMemory ? `${this.fingerprint.deviceMemory} GB` : 'Unknown' },
@@ -985,12 +993,12 @@ class IPSecurityAnalyzer {
             // WebRTC结果
             const webrtcElement = document.getElementById('webrtcResult');
             if (webrtcElement) {
-                const webrtcStatus = this.fingerprint?.webRTC || '未检测';
+                const webrtcStatus = this.fingerprint?.webRTC || 'Not detected';
                 const statusClass = webrtcStatus === 'Detected' ? 'threat' : 'clear';
                 webrtcElement.innerHTML = `<span class="status ${statusClass}">${webrtcStatus}</span>`;
             }
 
-            // 安全建议
+            // Security recommendations
             this.generateSecurityTips();
         } catch (error) {
             console.error('Error populating advanced checks:', error);
@@ -1231,5 +1239,8 @@ function showDashboard(event) {
 
 // 页面加载完成后自动开始
 document.addEventListener('DOMContentLoaded', () => {
+    // Force English language update
+    window.i18n.setLanguage('en');
+    window.i18n.updatePageLanguage();
     startTest();
 });
