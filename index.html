@@ -26,13 +26,11 @@
     <meta property="twitter:image" content="https://www.goodip.info/twitter-image.jpg">
     
     <!-- Favicon and PWA -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!-- Favicon as inline SVG data URL -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232a5298'/%3E%3Ctext x='16' y='24' font-family='Arial' font-size='20' font-weight='bold' text-anchor='middle' fill='white'%3EIP%3C/text%3E%3C/svg%3E" type="image/svg+xml">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2a5298">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- PWA support for iOS -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Structured Data -->
@@ -132,12 +130,10 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2930264481795449"
          crossorigin="anonymous"></script>
     
-    <!-- Google AdSense Auto Ads Activation -->
+    <!-- Google AdSense Auto Ads - Modern implementation -->
     <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-2930264481795449",
-            enable_page_level_ads: true
-        });
+        // Modern AdSense auto ads are enabled automatically with the script tag above
+        // No need for manual enable_page_level_ads push
     </script>
 </head>
 <body>
