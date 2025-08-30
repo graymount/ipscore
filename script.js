@@ -793,20 +793,20 @@ class IPSecurityAnalyzer {
 
         // 设置评分样式
         let scoreClass = 'poor';
-        let statusText = '需要注意';
+        let statusText = 'Needs Attention';
         
         if (this.healthScore >= 90) {
             scoreClass = 'excellent';
-            statusText = window.i18n.t('status.excellent');
+            statusText = 'Excellent Security';
         } else if (this.healthScore >= 75) {
             scoreClass = 'good';
-            statusText = window.i18n.t('status.good');
+            statusText = 'Good Security';
         } else if (this.healthScore >= 60) {
             scoreClass = 'average';
-            statusText = window.i18n.t('status.average');
+            statusText = 'Average Security';
         } else {
             scoreClass = 'poor';
-            statusText = window.i18n.t('status.poor');
+            statusText = 'Security Risk';
         }
 
         scoreCircle.className = `score-circle ${scoreClass}`;
