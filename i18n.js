@@ -7,26 +7,7 @@ class I18n {
     }
 
     detectLanguage() {
-        // Check URL parameter first
-        const urlParams = new URLSearchParams(window.location.search);
-        const langParam = urlParams.get('lang');
-        if (langParam && this.isValidLanguage(langParam)) {
-            return langParam;
-        }
-
-        // Check localStorage
-        const savedLang = localStorage.getItem('preferred-language');
-        if (savedLang && this.isValidLanguage(savedLang)) {
-            return savedLang;
-        }
-
-        // Check browser language
-        const browserLang = navigator.language.split('-')[0];
-        if (this.isValidLanguage(browserLang)) {
-            return browserLang;
-        }
-
-        // Default to English (changed from Chinese)
+        // Force English as default - ignoring browser and localStorage settings
         return 'en';
     }
 

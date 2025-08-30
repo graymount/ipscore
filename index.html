@@ -145,14 +145,14 @@
         <header class="main-header" role="banner">
             <div class="header-content">
                 <div class="logo">
-                    <h1 itemprop="name">🛡️ IP安全评分</h1>
-                    <p class="tagline" itemprop="description">专业的IP安全威胁评估平台 - www.goodip.info</p>
+                    <h1 itemprop="name" data-i18n="site.title">🛡️ IP Security Score</h1>
+                    <p class="tagline" itemprop="description"><span data-i18n="site.tagline">Professional IP Security Assessment Platform</span> - www.goodip.info</p>
                 </div>
                 <nav class="header-nav" role="navigation" aria-label="Main Navigation">
-                    <a href="/" class="nav-item active" aria-current="page" onclick="showDashboard(event)">我的IP</a>
-                    <a href="help.html" class="nav-item">检测说明</a>
-                    <a href="about.html" class="nav-item">关于我们</a>
-                    <a href="contact.html" class="nav-item">联系我们</a>
+                    <a href="/" class="nav-item active" aria-current="page" onclick="showDashboard(event)" data-i18n="nav.myip">My IP</a>
+                    <a href="help.html" class="nav-item">Detection Guide</a>
+                    <a href="about.html" class="nav-item">About Us</a>
+                    <a href="contact.html" class="nav-item">Contact Us</a>
                 </nav>
             </div>
         </header>
@@ -162,8 +162,8 @@
                 <div class="loading-animation">
                     <div class="scanning-circle"></div>
                     <div class="loading-text">
-                        <h2>正在扫描您的IP...</h2>
-                        <p id="loadingStatus">初始化安全引擎...</p>
+                        <h2 data-i18n="loading.title">Scanning Your IP...</h2>
+                        <p id="loadingStatus">Initializing security engine...</p>
                         <div class="progress-bar">
                             <div class="progress-fill" id="progressFill"></div>
                         </div>
@@ -175,7 +175,7 @@
                 <!-- Main IP Information Card -->
                 <div class="card-row">
                     <div class="card ip-card">
-                        <h3>您的IP地址</h3>
+                        <h3 data-i18n="card.ip.title">Your IP Address</h3>
                         <div class="ip-display">
                             <span class="flag" id="countryFlag">🇺🇸</span>
                             <span class="ip-address" id="ipAddress">-</span>
@@ -185,27 +185,27 @@
                         
                         <!-- IP Input Section -->
                         <div class="ip-input-section-card">
-                            <label for="customIP" class="sr-only">输入IP地址</label>
+                            <label for="customIP" class="sr-only">Enter IP address</label>
                             <input type="text" id="customIP" class="ip-input-card" 
-                                   placeholder="输入其他IP地址检测"
+                                   placeholder="Enter IP address to check"
                                    aria-label="IP address input" 
                                    pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$">
                             <button onclick="checkCustomIP()" class="check-btn-card" 
-                                    aria-label="Check specified IP address">检测</button>
+                                    aria-label="Check specified IP address" data-i18n="button.check">Check</button>
                         </div>
                     </div>
 
                     <div class="card score-card">
-                        <h3>安全评分</h3>
+                        <h3 data-i18n="card.score.title">Security Score</h3>
                         <div class="score-display">
                             <div class="score-circle" id="scoreCircle">
                                 <span class="score-value" id="scoreValue">-</span>
                                 <span class="score-max">/100</span>
                             </div>
                         </div>
-                        <div class="score-status" id="scoreStatus">评分中...</div>
+                        <div class="score-status" id="scoreStatus" data-i18n="card.score.evaluating">Evaluating...</div>
                         <div class="score-info" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 12px; color: #fff;">
-                            💡 <strong>评分说明：</strong>90+分可正常使用各类服务，70-89分可能需要额外验证，低于70分建议改善网络环境
+                            💡 <strong>Score Guide:</strong> 90+ can use all services normally, 70-89 may need extra verification, below 70 should improve network environment
                         </div>
                     </div>
                 </div>
@@ -214,18 +214,18 @@
                 <!-- Why Check IP Card -->
                 <div class="card-row">
                     <div class="card info-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                        <h3 style="color: white;">🤔 为什么要检测IP安全？</h3>
+                        <h3 style="color: white;">🤔 Why Check IP Security?</h3>
                         <div class="info-content" style="line-height: 1.6;">
-                            <p style="margin-bottom: 10px;">您的IP地址就像网络身份证，决定了您能否顺利使用各种在线服务：</p>
+                            <p style="margin-bottom: 10px;">Your IP address is like your network ID card, determining whether you can smoothly use various online services:</p>
                             <ul style="padding-left: 20px; margin: 0;">
-                                <li>银行、支付平台注册可能被拒绝</li>
-                                <li>电商购物账户可能被风控限制</li>
-                                <li>游戏平台可能要求额外验证</li>
-                                <li>邮件可能被标记为垃圾邮件</li>
+                                <li>Bank and payment platform registrations may be rejected</li>
+                                <li>E-commerce accounts may face risk control restrictions</li>
+                                <li>Gaming platforms may require additional verification</li>
+                                <li>Emails may be marked as spam</li>
                             </ul>
                             <div style="margin-top: 15px; text-align: center;">
                                 <a href="help.html" style="color: #fff; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; text-decoration: none; display: inline-block; backdrop-filter: blur(10px);">
-                                    了解更多详情 →
+                                    Learn More →
                                 </a>
                             </div>
                         </div>
@@ -235,49 +235,49 @@
                 <!-- Security Detection Results -->
                 <div class="card-row">
                     <div class="card blacklist-card">
-                        <h3>🛡️ 威胁情报检测</h3>
+                        <h3 data-i18n="card.threats.title">🛡️ Threat Intelligence Detection</h3>
                         <div class="check-list" id="blacklistResults">
                             <div class="check-item">
-                                <span>恶意软件数据库</span>
-                                <span class="status checking">检测中</span>
+                                <span data-i18n="threats.malware">Malware Database</span>
+                                <span class="status checking" data-i18n="status.checking">Checking</span>
                             </div>
                             <div class="check-item">
-                                <span>垃圾邮件列表</span>
-                                <span class="status checking">检测中</span>
+                                <span data-i18n="threats.spam">Spam Lists</span>
+                                <span class="status checking" data-i18n="status.checking">Checking</span>
                             </div>
                             <div class="check-item">
-                                <span>僵尸网络</span>
-                                <span class="status checking">检测中</span>
+                                <span data-i18n="threats.botnet">Botnet</span>
+                                <span class="status checking" data-i18n="status.checking">Checking</span>
                             </div>
                             <div class="check-item">
-                                <span>攻击源IP</span>
-                                <span class="status checking">检测中</span>
+                                <span data-i18n="threats.attack">Attack Source IP</span>
+                                <span class="status checking" data-i18n="status.checking">Checking</span>
                             </div>
                             <div class="check-item">
-                                <span>钓鱼网站</span>
-                                <span class="status checking">检测中</span>
+                                <span data-i18n="threats.phishing">Phishing Websites</span>
+                                <span class="status checking" data-i18n="status.checking">Checking</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="card proxy-card">
-                        <h3>🔍 代理/VPN检测</h3>
+                        <h3 data-i18n="card.proxy.title">🔍 Proxy/VPN Detection</h3>
                         <div class="proxy-result" id="proxyResult">
                             <div class="proxy-status">
-                                <span class="status-label">类型:</span>
-                                <span class="status-value" id="proxyType">检测中...</span>
+                                <span class="status-label" data-i18n="proxy.type">Type:</span>
+                                <span class="status-value" id="proxyType" data-i18n="common.detecting">Detecting...</span>
                             </div>
                             <div class="proxy-details">
                                 <div class="detail-item">
-                                    <span>匿名级别:</span>
+                                    <span data-i18n="proxy.anonymity">Anonymity Level:</span>
                                     <span id="anonymityLevel">-</span>
                                 </div>
                                 <div class="detail-item">
-                                    <span>代理协议:</span>
+                                    <span data-i18n="proxy.protocol">Proxy Protocol:</span>
                                     <span id="proxyProtocol">-</span>
                                 </div>
                                 <div class="detail-item">
-                                    <span>风险等级:</span>
+                                    <span data-i18n="proxy.risk">Risk Level:</span>
                                     <span id="proxyRisk">-</span>
                                 </div>
                             </div>
@@ -288,7 +288,7 @@
                 <!-- Detailed Information -->
                 <div class="card-row">
                     <div class="card location-card">
-                        <h3>📍 地理位置信息</h3>
+                        <h3 data-i18n="card.location.title">📍 Geographic Location</h3>
                         <div class="location-tabs">
                             <button class="tab-btn active" onclick="switchTab('geoip1')">GeoIP1</button>
                             <button class="tab-btn" onclick="switchTab('geoip2')">GeoIP2</button>
@@ -299,27 +299,27 @@
                                 <span class="value" id="detailIP">-</span>
                             </div>
                             <div class="detail-row">
-                                <span class="label">国家:</span>
+                                <span class="label" data-i18n="location.country">Country:</span>
                                 <span class="value" id="detailCountry">-</span>
                             </div>
                             <div class="detail-row">
-                                <span class="label">省/州:</span>
+                                <span class="label" data-i18n="location.state">State:</span>
                                 <span class="value" id="detailState">-</span>
                             </div>
                             <div class="detail-row">
-                                <span class="label">城市:</span>
+                                <span class="label" data-i18n="location.city">City:</span>
                                 <span class="value" id="detailCity">-</span>
                             </div>
                             <div class="detail-row">
-                                <span class="label">邮编:</span>
+                                <span class="label" data-i18n="location.zip">ZIP:</span>
                                 <span class="value" id="detailZip">-</span>
                             </div>
                             <div class="detail-row">
-                                <span class="label">时区:</span>
+                                <span class="label" data-i18n="location.timezone">Timezone:</span>
                                 <span class="value" id="detailTimezone">-</span>
                             </div>
                             <div class="detail-row">
-                                <span class="label">组织:</span>
+                                <span class="label" data-i18n="location.org">Organization:</span>
                                 <span class="value" id="detailOrg">-</span>
                             </div>
                             <div class="detail-row">
@@ -478,15 +478,15 @@
 
                 <!-- Scoring Debug Panel -->
                 <div class="card debug-card">
-                    <h3>🔍 评分调试信息</h3>
+                    <h3 data-i18n="debug.title">🔍 Scoring Debug Information</h3>
                     <div class="debug-content" id="debugContent">
-                        <p>正在分析评分过程...</p>
+                        <p>Analyzing scoring process...</p>
                     </div>
                 </div>
 
                 <!-- Retest Button -->
                 <div class="retest-section">
-                    <button class="retest-btn" onclick="startTest()">🔄 重新检测</button>
+                    <button class="retest-btn" onclick="startTest()" data-i18n="common.retest">🔄 Retest</button>
                 </div>
 
             </div>
@@ -494,7 +494,7 @@
         </main>
 
         <footer class="main-footer">
-            <p>&copy; 2024 www.goodip.info. 专业的IP安全评估服务 | <a href="privacy.html">隐私政策</a> | <a href="terms.html">使用条款</a> | <a href="about.html">关于我们</a> | <a href="contact.html">联系我们</a></p>
+            <p>&copy; 2024 www.goodip.info. Professional IP Security Assessment Service | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a> | <a href="about.html">About Us</a> | <a href="contact.html">Contact Us</a></p>
         </footer>
     </div>
 
