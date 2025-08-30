@@ -149,7 +149,7 @@ class IPSecurityAnalyzer {
                 });
                 await this.delay(100); // 避免API限制
             } catch (error) {
-                console.warn(`威胁源 ${source.name} 检测失败:`, error);
+                console.warn(`Threat source ${source.name} detection failed:`, error);
                 results.push({
                     source: source.name,
                     isThreat: false,
@@ -367,7 +367,7 @@ class IPSecurityAnalyzer {
                         });
                     }
                 } catch (error) {
-                    console.warn(`DNS测试失败 ${dns.server}:`, error);
+                    console.warn(`DNS test failed ${dns.server}:`, error);
                 }
             }
 
@@ -375,7 +375,7 @@ class IPSecurityAnalyzer {
                 { server: 'Auto', provider: '系统默认', location: 'Local', latency: 'N/A' }
             ];
         } catch (error) {
-            console.error('DNS信息获取失败:', error);
+            console.error('DNS information retrieval failed:', error);
             return [{ server: 'Unknown', provider: '无法检测', location: 'Unknown', latency: 'N/A' }];
         }
     }
@@ -451,7 +451,7 @@ class IPSecurityAnalyzer {
         );
         
         // 调试信息
-        console.log('威胁检测调试:');
+        console.log('Threat detection debug:');
         console.log('threatData:', JSON.stringify(this.threatData, null, 2));
         console.log('hasCriticalThreats:', hasCriticalThreats);
         console.log('hasHighThreats:', hasHighThreats);
@@ -460,7 +460,7 @@ class IPSecurityAnalyzer {
         
         // 逐个检查威胁数据
         this.threatData.forEach((threat, index) => {
-            console.log(`威胁 ${index}:`, {
+            console.log(`Threat ${index}:`, {
                 source: threat.source,
                 isThreat: threat.isThreat,
                 severity: threat.severity,
@@ -471,24 +471,24 @@ class IPSecurityAnalyzer {
         
         if (riskFactors.length === 0) {
             score = 100; // 无风险因素时直接给100分
-            console.log('应用规则: 无风险因素 -> 100分');
+            console.log('Applied rule: No risk factors -> 100 points');
         } else if (hasCriticalThreats) {
             // 有critical威胁时不强制提高分数
             score = Math.max(score, 30); // 最低30分
-            console.log('应用规则: 有critical威胁 -> 最低30分, 实际分数:', score);
+            console.log('Applied rule: Has critical threats -> minimum 30 points, actual score:', score);
         } else if (hasHighThreats) {
             // 有high威胁时稍微宽松一些
             score = Math.max(score, 70); // 最低70分
-            console.log('应用规则: 有high威胁 -> 最低70分, 实际分数:', score);
+            console.log('Applied rule: Has high threats -> minimum 70 points, actual score:', score);
         } else if (riskFactors.length <= 1) {
             score = Math.max(score, 98); // 1个低风险因素时至少98分
-            console.log('应用规则: 1个低风险 -> 最低98分, 实际分数:', score);
+            console.log('Applied rule: 1 low risk -> minimum 98 points, actual score:', score);
         } else if (riskFactors.length <= 2) {
             score = Math.max(score, 90); // 2个低风险因素时至少90分
-            console.log('应用规则: 2个低风险 -> 最低90分, 实际分数:', score);
+            console.log('Applied rule: 2 low risks -> minimum 90 points, actual score:', score);
         } else {
             score = Math.max(score, 80); // 多个低风险因素时至少80分
-            console.log('应用规则: 多个低风险 -> 最低80分, 实际分数:', score);
+            console.log('Applied rule: Multiple low risks -> minimum 80 points, actual score:', score);
         }
 
         this.healthScore = Math.max(0, Math.min(100, Math.round(score)));
@@ -496,7 +496,7 @@ class IPSecurityAnalyzer {
         this.debugInfo = debugInfo;
         
         // 在控制台和页面上显示调试信息
-        console.log('评分调试信息:', {
+        console.log('Score debug info:', {
             最终得分: this.healthScore,
             风险因素: riskFactors,
             扣分详情: debugInfo.deductions,  
@@ -829,21 +829,21 @@ class IPSecurityAnalyzer {
     populateThreatIntelligence() {
         const container = document.getElementById('blacklistResults');
         if (!container) {
-            console.warn('威胁情报容器未找到');
+            console.warn('Threat intelligence container not found');
             return;
         }
         
         container.innerHTML = '';
 
         if (!this.threatData || this.threatData.length === 0) {
-            console.warn('威胁数据为空:', this.threatData);
+            console.warn('Threat data is empty:', this.threatData);
             // 显示默认的检测项目
             const defaultItems = [
-                { source: '恶意软件数据库', isThreat: false, severity: null },
-                { source: '垃圾邮件列表', isThreat: false, severity: null },
-                { source: '僵尸网络', isThreat: false, severity: null },
-                { source: '攻击源IP', isThreat: false, severity: null },
-                { source: '钓鱼网站', isThreat: false, severity: null }
+                { source: window.i18n.t('threats.malware'), isThreat: false, severity: null },
+                { source: window.i18n.t('threats.spam'), isThreat: false, severity: null },
+                { source: window.i18n.t('threats.botnet'), isThreat: false, severity: null },
+                { source: window.i18n.t('threats.attack'), isThreat: false, severity: null },
+                { source: window.i18n.t('threats.phishing'), isThreat: false, severity: null }
             ];
             
             defaultItems.forEach((threat, index) => {
