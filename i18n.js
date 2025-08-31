@@ -335,16 +335,11 @@ class I18n {
     }
 
     setLanguage(lang) {
-        console.log('i18n.setLanguage called with:', lang);
-        console.log('Is valid language:', this.isValidLanguage(lang));
-        
         if (this.isValidLanguage(lang)) {
-            console.log('Setting language from', this.currentLang, 'to', lang);
             this.currentLang = lang;
             localStorage.setItem('preferred-language', lang);
             document.documentElement.lang = lang;
             this.updatePageLanguage();
-            console.log('Language set to:', this.currentLang);
         } else {
             console.error('Invalid language:', lang);
         }
@@ -355,17 +350,20 @@ class I18n {
     }
 
     updatePageLanguage() {
-        console.log('updatePageLanguage called for language:', this.currentLang);
-        
         // Update all elements with data-i18n attribute
         const elements = document.querySelectorAll('[data-i18n]');
-        console.log('Found', elements.length, 'elements with data-i18n attribute');
         
-        elements.forEach((element, index) => {
+        elements.forEach((element) => {
             const key = element.getAttribute('data-i18n');
+            if (!key) return;
+            
             const translation = this.t(key);
             
-            console.log(`Element ${index}: key="${key}", translation="${translation}"`);
+            // Never set textContent to the translation key itself
+            if (translation === key) {
+                // Translation not found, keep existing content
+                return;
+            }
             
             if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                 element.placeholder = translation;
@@ -402,3 +400,40 @@ class I18n {
 
 // Global i18n instance
 window.i18n = new I18n();
+
+// Fix for elements showing translation keys
+// This runs immediately to prevent keys from being displayed
+(function() {
+    const fixI18nDisplay = () => {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const content = element.textContent.trim();
+            
+            // If content is exactly the translation key, restore default
+            if (content === key) {
+                switch(key) {
+                    case 'site.title':
+                        element.textContent = '🛡️ IP Security Score';
+                        break;
+                    case 'site.tagline':
+                        element.textContent = 'Professional IP Security Assessment Platform';
+                        break;
+                    case 'card.ip.title':
+                        element.textContent = 'Your IP Address';
+                        break;
+                    case 'card.score.title':
+                        element.textContent = 'Security Score';
+                        break;
+                }
+            }
+        });
+    };
+    
+    // Run immediately and on DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixI18nDisplay);
+    } else {
+        fixI18nDisplay();
+    }
+})();
