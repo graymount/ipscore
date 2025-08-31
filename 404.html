@@ -131,6 +131,11 @@
     </div>
 
     <script>
+        // Handle Cloudflare email protection URLs
+        if (window.location.pathname.includes('/cdn-cgi/l/email-protection')) {
+            window.location.replace('/');
+        }
+        
         // 自动跳转倒计时（可选）
         // setTimeout(() => {
         //     window.location.href = '/';

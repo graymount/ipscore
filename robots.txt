@@ -6,6 +6,7 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /.git/
 Disallow: /node_modules/
+Disallow: /cdn-cgi/
 
 # Allow important files
 Allow: /style.css

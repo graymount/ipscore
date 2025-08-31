@@ -1,2 +1,5 @@
+# Redirect Cloudflare email protection URLs to home
+/cdn-cgi/l/email-protection    /    301
+
 # Only redirect 404s to index.html
 /*    /index.html   404
