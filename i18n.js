@@ -19,16 +19,16 @@ class I18n {
         this.translations = {
             en: {
                 // Header
-                'site.title': 'IP Security Score',
-                'site.tagline': 'Professional IP Security Assessment Platform',
+                'site.title': 'IP Score',
+                'site.tagline': 'Check Your IP Score - Professional Security Rating',
                 'nav.myip': 'My IP',
                 'nav.api': 'API',
                 'nav.history': 'History',
-                'input.placeholder': 'Enter IP address to check',
-                'button.check': 'Check',
+                'input.placeholder': 'Enter IP address for score check',
+                'button.check': 'Check IP Score',
 
                 // Loading
-                'loading.title': 'Scanning Your IP...',
+                'loading.title': 'Running IP Score Test...',
                 'loading.steps': {
                     0: 'Initializing security engine...',
                     1: 'Fetching IP address information...',
@@ -36,15 +36,15 @@ class I18n {
                     3: 'Analyzing network fingerprint...',
                     4: 'Performing proxy detection...',
                     5: 'Verifying geographic location...',
-                    6: 'Generating security score...',
+                    6: 'Calculating IP score quality...',
                     7: 'Preparing detailed report...'
                 },
 
                 // Main Cards
                 'card.ip.title': 'Your IP Address',
                 'card.ip.howto': 'How to change IP?',
-                'card.score.title': 'Security Score',
-                'card.score.evaluating': 'Evaluating...',
+                'card.score.title': 'IP Score',
+                'card.score.evaluating': 'Testing IP score quality...',
 
                 // Security Status
                 'status.excellent': 'Excellent Security',
@@ -191,8 +191,8 @@ class I18n {
 
             zh: {
                 // Header  
-                'site.title': 'IP安全评分',
-                'site.tagline': '专业的IP安全威胁评估平台',
+                'site.title': 'IP评分',
+                'site.tagline': '检查您的IP评分 - 专业安全评级',
                 'nav.myip': '我的IP',
                 'nav.api': 'API',
                 'nav.history': '检测历史',
@@ -215,7 +215,7 @@ class I18n {
                 // Main Cards
                 'card.ip.title': '您的IP地址',
                 'card.ip.howto': '如何修改IP？',
-                'card.score.title': '安全评分',
+                'card.score.title': 'IP评分',
                 'card.score.evaluating': '评分中...',
 
                 // Security Status
