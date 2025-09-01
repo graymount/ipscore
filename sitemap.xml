@@ -46,11 +46,4 @@
         <priority>0.5</priority>
     </url>
 
-    <url>
-        <loc>https://www.goodip.info/404.html</loc>
-        <lastmod>2025-08-30</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.3</priority>
-    </url>
-
 </urlset>

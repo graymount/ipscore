@@ -546,8 +546,8 @@ class IPSecurityAnalyzer {
             // 只有严重地理位置异常才扣分
             const geoDeduction = 2; // 最多扣2分
             score -= geoDeduction;
-            riskFactors.push('严重地理位置异常');
-            debugInfo.deductions.push(`地理位置: -${geoDeduction}`);
+            riskFactors.push(i18n.t('debug.severegeoanomalies'));
+            debugInfo.deductions.push(`${i18n.t('debug.geolocation')}: -${geoDeduction}`);
         }
 
         // ISP analysis - no deduction (ip-score.com doesn't seem to deduct by ISP type)
@@ -609,10 +609,10 @@ class IPSecurityAnalyzer {
         
         // 在控制台和页面上显示调试信息
         console.log('Score debug info:', {
-            最终得分: this.healthScore,
-            风险因素: riskFactors,
-            扣分详情: debugInfo.deductions,  
-            IP信息: this.ipData?.org || 'Unknown'
+            [i18n.t('debug.finalscore')]: this.healthScore,
+            [i18n.t('debug.riskfactors')]: riskFactors,
+            [i18n.t('debug.deductiondetails')]: debugInfo.deductions,  
+            [i18n.t('debug.ipinfo')]: this.ipData?.org || 'Unknown'
         });
         
         this.displayDebugInfo(debugInfo, riskFactors);
@@ -624,26 +624,26 @@ class IPSecurityAnalyzer {
 
         let html = `
             <div class="debug-summary">
-                <h4>📈 评分概览</h4>
+                <h4>${i18n.t('debug.overview')}</h4>
                 <div class="debug-item">
-                    <span>起始分数:</span>
+                    <span>${i18n.t('debug.initial')}</span>
                     <span>${debugInfo.initialScore}</span>
                 </div>
                 <div class="debug-item">
-                    <span>最终得分:</span>
+                    <span>${i18n.t('debug.final')}</span>
                     <span><strong>${this.healthScore}/100</strong></span>
                 </div>
                 <div class="debug-item">
-                    <span>风险因素数量:</span>
+                    <span>${i18n.t('debug.risks')}</span>
                     <span>${riskFactors.length}</span>
                 </div>
             </div>
             
-            <h4>🔍 扣分详情</h4>
+            <h4>${i18n.t('debug.deductions')}</h4>
         `;
 
         if (debugInfo.deductions.length === 0) {
-            html += `<div class="debug-item safe">✅ 未发现任何风险因素，保持满分!</div>`;
+            html += `<div class="debug-item safe">${i18n.t('debug.norisk')}</div>`;
         } else {
             debugInfo.deductions.forEach(deduction => {
                 html += `<div class="debug-item deduction">❌ ${deduction}</div>`;
@@ -651,22 +651,22 @@ class IPSecurityAnalyzer {
         }
 
         html += `
-            <h4>📋 检测项目状态</h4>
+            <h4>${i18n.t('debug.status')}</h4>
             <div class="debug-item ${this.threatData?.every(t => !t.isThreat) ? 'safe' : 'deduction'}">
-                <span>Threat Intelligence:</span>
-                <span>${this.threatData?.filter(t => t.isThreat).length || 0}/${this.threatData?.length || 0} threats found</span>
+                <span>${i18n.t('debug.threats')}</span>
+                <span>${i18n.t('debug.threatsfound', {count: this.threatData?.filter(t => t.isThreat).length || 0, total: this.threatData?.length || 0})}</span>
             </div>
             <div class="debug-item ${!this.detectProxy().detected ? 'safe' : 'deduction'}">
-                <span>Proxy/VPN Detection:</span>
-                <span>${this.detectProxy().detected ? `Detected ${this.getProxyTypeDisplayName(this.detectProxy().type)}` : 'Direct Connection'}</span>
+                <span>${i18n.t('debug.proxy')}</span>
+                <span>${this.detectProxy().detected ? i18n.t('debug.detected', {type: this.getProxyTypeDisplayName(this.detectProxy().type)}) : i18n.t('debug.directconnection')}</span>
             </div>
             <div class="debug-item ${this.checkGeoConsistency().consistent ? 'safe' : 'deduction'}">
-                <span>Geographic Detection:</span>
-                <span>${this.checkGeoConsistency().consistent ? 'Location Consistent' : 'Location Anomaly'}</span>
+                <span>${i18n.t('debug.geo')}</span>
+                <span>${this.checkGeoConsistency().consistent ? i18n.t('debug.locationconsistent') : i18n.t('debug.locationanomaly')}</span>
             </div>
             <div class="debug-item ${this.analyzeISP().adjustment >= 0 ? 'safe' : 'deduction'}">
-                <span>ISP Analysis:</span>
-                <span>${this.analyzeISP().riskFactor || 'Normal ISP'}</span>
+                <span>${i18n.t('debug.isp')}</span>
+                <span>${this.analyzeISP().riskFactor || i18n.t('debug.normalisp')}</span>
             </div>
         `;
 
@@ -848,7 +848,7 @@ class IPSecurityAnalyzer {
         if (riskISPs.some(isp => org.includes(isp))) {
             return { 
                 adjustment: -12, 
-                riskFactor: '云服务商/托管IP' 
+                riskFactor: i18n.t('debug.cloudprovider') 
             };
         }
 
