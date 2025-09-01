@@ -510,7 +510,7 @@ class IPSecurityAnalyzer {
                 }
                 threatDeduction += deduction;
                 riskFactors.push(`${threat.source} (${threat.severity})`);
-                debugInfo.deductions.push(`威胁情报-${threat.source}: -${deduction}`);
+                debugInfo.deductions.push(`Threat Intelligence-${threat.source}: -${deduction}`);
             }
         });
         
@@ -792,7 +792,7 @@ class IPSecurityAnalyzer {
         return {
             consistent: inconsistencies.length === 0,
             penalty: totalPenalty,
-            reason: inconsistencies.join(', ') || '地理位置信息一致'
+            reason: inconsistencies.join(', ') || 'Location information consistent'
         };
     }
 
