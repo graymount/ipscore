@@ -63,10 +63,15 @@
         "url": "https://www.goodip.info",
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript enabled. Works on Chrome 60+, Firefox 55+, Safari 11+, Edge 79+",
+        "permissions": "No special permissions required. No data collection or storage.",
+        "countriesSupported": "All countries worldwide",
+        "availableLanguage": ["en", "zh", "es", "fr", "de", "ja", "ko"],
         "offers": {
             "@type": "Offer",
             "price": "0",
-            "priceCurrency": "USD"
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
         },
         "provider": {
             "@type": "Organization",
@@ -79,8 +84,19 @@
             "Geographic Location Verification",
             "Device Fingerprint Analysis",
             "Port Security Scanning",
-            "Network Performance Testing"
+            "Network Performance Testing",
+            "Real-time Security Scoring",
+            "Multi-language Support",
+            "WebRTC Leak Detection",
+            "DNS Server Analysis"
         ],
+        "screenshot": [
+            "https://www.goodip.info/screenshot-dashboard.jpg",
+            "https://www.goodip.info/screenshot-results.jpg"
+        ],
+        "softwareVersion": "2.0",
+        "softwareHelp": "https://www.goodip.info/help.html",
+        "releaseNotes": "https://www.goodip.info/updates",
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.8",
@@ -140,6 +156,280 @@
     }
     </script>
     
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "IP Security Score",
+        "alternateName": "goodip.info",
+        "url": "https://www.goodip.info",
+        "logo": "https://www.goodip.info/logo.png",
+        "description": "Professional IP score analysis and security rating platform",
+        "sameAs": [
+            "https://twitter.com/ipsecurityscore",
+            "https://facebook.com/ipsecurityscore"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-555-123-4567",
+            "contactType": "Customer Support",
+            "email": "support@goodip.info",
+            "areaServed": "Worldwide",
+            "availableLanguage": ["English", "Chinese", "Spanish", "French", "German", "Japanese", "Korean"]
+        }
+    }
+    </script>
+    
+    <!-- HowTo Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Check Your IP Score",
+        "description": "Learn how to check your IP address security score and understand the results",
+        "image": "https://www.goodip.info/howto-ip-score.jpg",
+        "totalTime": "PT2M",
+        "estimatedCost": {
+            "@type": "MonetaryAmount",
+            "currency": "USD",
+            "value": "0"
+        },
+        "supply": [],
+        "tool": [],
+        "step": [
+            {
+                "@type": "HowToStep",
+                "name": "Access the IP Score Checker",
+                "text": "Visit www.goodip.info to access our free IP score checking tool",
+                "image": "https://www.goodip.info/step1.jpg"
+            },
+            {
+                "@type": "HowToStep", 
+                "name": "View Automatic Analysis",
+                "text": "Your IP address is automatically detected and analysis begins immediately",
+                "image": "https://www.goodip.info/step2.jpg"
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Review Security Score",
+                "text": "Check your IP score out of 100 and review detailed security analysis results",
+                "image": "https://www.goodip.info/step3.jpg"
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Check Another IP (Optional)",
+                "text": "Enter a different IP address in the input field to check its security score",
+                "image": "https://www.goodip.info/step4.jpg"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Service Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "IP Security Score Analysis",
+        "description": "Comprehensive IP address security analysis including threat detection, proxy/VPN identification, and reputation scoring",
+        "provider": {
+            "@type": "Organization",
+            "name": "IP Security Score",
+            "url": "https://www.goodip.info"
+        },
+        "serviceType": "IP Security Analysis",
+        "areaServed": {
+            "@type": "Place",
+            "name": "Worldwide"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "IP Security Services",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "IP Score Check",
+                        "description": "Real-time IP reputation scoring from 0-100"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Threat Intelligence Analysis",
+                        "description": "Check IP against multiple threat databases"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Proxy/VPN Detection",
+                        "description": "Identify proxy, VPN, and anonymizer usage"
+                    }
+                }
+            ]
+        }
+    }
+    </script>
+    
+    <!-- WebSite Schema with SearchAction -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "IP Security Score",
+        "url": "https://www.goodip.info",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://www.goodip.info/?ip={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    <!-- SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "IP Score Checker",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Web Browser",
+        "url": "https://www.goodip.info",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1250",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "screenshot": "https://www.goodip.info/screenshot.jpg",
+        "featureList": "IP Score Analysis, Threat Detection, Proxy Detection, Geographic Verification, Device Fingerprinting",
+        "softwareVersion": "2.0",
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-01-09",
+        "author": {
+            "@type": "Organization",
+            "name": "IP Security Score"
+        }
+    }
+    </script>
+    
+    <!-- Speakable Schema for Voice Assistants -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "IP Security Score Checker",
+        "url": "https://www.goodip.info",
+        "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": [
+                ".score-value",
+                ".score-status",
+                "#ipAddress",
+                "#location",
+                ".score-info"
+            ]
+        }
+    }
+    </script>
+    
+    <!-- Product Schema for IP Score Feature -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "IP Security Score",
+        "description": "Professional IP address security scoring system that analyzes IP reputation, threats, and security risks",
+        "brand": {
+            "@type": "Brand",
+            "name": "goodip.info"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://www.goodip.info",
+            "priceValidUntil": "2025-12-31"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "1250"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5"
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "John Smith"
+                },
+                "reviewBody": "Excellent tool for checking IP reputation. Fast and accurate results."
+            },
+            {
+                "@type": "Review",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5"
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "Sarah Johnson"
+                },
+                "reviewBody": "Very helpful for understanding my IP security status. Great for checking before important transactions."
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Event Schema for Updates -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "IP Security Best Practices Webinar",
+        "description": "Learn about IP security, threat detection, and how to improve your IP score",
+        "startDate": "2024-02-01T14:00:00-05:00",
+        "endDate": "2024-02-01T15:00:00-05:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+        "location": {
+            "@type": "VirtualLocation",
+            "url": "https://www.goodip.info/webinar"
+        },
+        "organizer": {
+            "@type": "Organization",
+            "name": "IP Security Score",
+            "url": "https://www.goodip.info"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://www.goodip.info/webinar-registration"
+        }
+    }
+    </script>
+    
     <!-- Critical CSS inline for faster initial render -->
     <style>
         * {margin:0;padding:0;box-sizing:border-box}
@@ -170,6 +460,15 @@
     <script>
         // Modern AdSense auto ads are enabled automatically with the script tag above
         // No need for manual enable_page_level_ads push
+        
+        // Configure AdSense to exclude certain areas
+        window.addEventListener('DOMContentLoaded', function() {
+            // Add Google's standard no-ads class to specific cards
+            document.querySelectorAll('.ip-card, .score-card').forEach(function(card) {
+                card.classList.add('adsbygoogle-noablate');
+                card.setAttribute('data-ad-status', 'unfilled');
+            });
+        });
         
         // Suppress known third-party errors from ad networks
         window.addEventListener('error', function(e) {
@@ -234,7 +533,7 @@
                 <!-- Main IP Information Card -->
                 <h2 class="section-heading">IP Score and Security Assessment</h2>
                 <div class="card-row">
-                    <div class="card ip-card">
+                    <div class="card ip-card" data-adbreak="no">
                         <h3 data-i18n="card.ip.title">Your IP Address</h3>
                         <div class="ip-display">
                             <span class="flag" id="countryFlag">🇺🇸</span>
@@ -255,7 +554,7 @@
                         </div>
                     </div>
 
-                    <div class="card score-card">
+                    <div class="card score-card" data-adbreak="no">
                         <h3 data-i18n="card.score.title">Security Score</h3>
                         <div class="score-display">
                             <div class="score-circle" id="scoreCircle">

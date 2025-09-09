@@ -1378,6 +1378,23 @@ body {
     display: block;
 }
 
+/* Prevent ads in specific cards */
+.ip-card .adsbygoogle,
+.score-card .adsbygoogle,
+.ip-card ins.adsbygoogle,
+.score-card ins.adsbygoogle,
+[data-adbreak="no"] .adsbygoogle,
+[data-adbreak="no"] ins.adsbygoogle,
+.adsbygoogle-noablate .adsbygoogle,
+.adsbygoogle-noablate ins.adsbygoogle {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    max-height: 0 !important;
+}
+
 /* Security tips card - Reserve consistent height */
 .security-tips-card {
     min-height: 400px; /* Same as other cards */
