@@ -68,13 +68,24 @@ class IPSecurityAnalyzer {
     }
 
     showLoadingScreen() {
-        document.getElementById('loadingScreen').style.display = 'flex';
-        document.getElementById('dashboard').style.display = 'none';
+        const loadingScreen = document.getElementById('loadingScreen');
+        const dashboard = document.getElementById('dashboard');
+        
+        // Remove classes for proper reset
+        loadingScreen.classList.remove('hidden');
+        dashboard.classList.remove('visible');
+        
+        // Force browser reflow to ensure proper transition
+        void loadingScreen.offsetHeight;
     }
 
     showDashboard() {
-        document.getElementById('loadingScreen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
+        const loadingScreen = document.getElementById('loadingScreen');
+        const dashboard = document.getElementById('dashboard');
+        
+        // Add classes for smooth transition
+        loadingScreen.classList.add('hidden');
+        dashboard.classList.add('visible');
         
         // Force i18n update when dashboard is shown
         setTimeout(() => {
@@ -87,8 +98,11 @@ class IPSecurityAnalyzer {
         const loadingStatus = document.getElementById('loadingStatus');
         
         for (let i = 0; i < this.loadingSteps.length; i++) {
-            loadingStatus.textContent = this.loadingSteps[i];
-            progressFill.style.width = `${((i + 1) / this.loadingSteps.length) * 100}%`;
+            // Use requestAnimationFrame for smoother updates
+            requestAnimationFrame(() => {
+                loadingStatus.textContent = this.loadingSteps[i];
+                progressFill.style.width = `${((i + 1) / this.loadingSteps.length) * 100}%`;
+            });
             await this.delay(400 + Math.random() * 300); // Reduced delay for faster loading
         }
     }
@@ -1193,8 +1207,14 @@ async function checkCustomIP() {
         customAnalyzer.userIP = customIP;
         
         // 显示加载状态
-        document.getElementById('loadingScreen').style.display = 'flex';
-        document.getElementById('dashboard').style.display = 'none';
+        const loadingScreen = document.getElementById('loadingScreen');
+        const dashboard = document.getElementById('dashboard');
+        
+        loadingScreen.classList.remove('hidden');
+        dashboard.classList.remove('visible');
+        
+        // Force browser reflow
+        void loadingScreen.offsetHeight;
         
         // 更新加载文本
         document.getElementById('loadingStatus').textContent = `正在分析IP: ${customIP}`;
@@ -1206,8 +1226,8 @@ async function checkCustomIP() {
         analyzer = customAnalyzer;
         
         // 显示结果
-        document.getElementById('loadingScreen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
+        loadingScreen.classList.add('hidden');
+        dashboard.classList.add('visible');
         
         // 清空输入框
         document.getElementById('customIP').value = '';

@@ -628,11 +628,26 @@ body {
 
 /* Loading Screen */
 .loading-screen {
-    flex: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 60px 20px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .loading-animation {
@@ -665,6 +680,7 @@ body {
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 25px;
+    min-height: 1.5rem; /* Reserve space */
 }
 
 .progress-bar {
@@ -674,6 +690,7 @@ body {
     border-radius: 3px;
     overflow: hidden;
     margin: 0 auto;
+    min-height: 6px; /* Prevent collapse */
 }
 
 .progress-fill {
@@ -681,15 +698,10 @@ body {
     background: linear-gradient(90deg, #3498db, #9b59b6);
     border-radius: 3px;
     width: 0%;
-    animation: progress 3s ease-in-out infinite;
+    transition: width 0.3s ease; /* Smooth width transitions */
+    transform: translateZ(0); /* GPU acceleration */
+    will-change: width; /* Optimize for width changes */
 }
-
-@keyframes progress {
-    0% { width: 0%; }
-    50% { width: 70%; }
-    100% { width: 100%; }
-}
-
 /* Main Dashboard */
 .main-content {
     flex: 1;
@@ -700,6 +712,26 @@ body {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.dashboard.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dashboard .section-heading {
+    color: #2a5298;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 20px 0 10px 0;
+    padding-left: 10px;
+    border-left: 4px solid #667eea;
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+    padding: 10px 15px;
+    border-radius: 8px;
 }
 
 .card-row {
@@ -857,6 +889,8 @@ body {
     border-radius: 15px;
     font-size: 0.85rem;
     font-weight: 600;
+    min-width: 80px; /* Reserve space for status text */
+    text-align: center;
 }
 
 .status.checking {
@@ -1274,14 +1308,8 @@ body {
     }
 }
 
-.card {
-    animation: fadeIn 0.6s ease-out;
-}
+/* .card animation removed to prevent layout shifts */
 
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-.card:nth-child(4) { animation-delay: 0.4s; }
 
 /* Accessibility */
 .sr-only {
@@ -1341,6 +1369,26 @@ body {
     .progress-fill {
         animation: none;
     }
+}
+
+/* AdSense Layout Shift Prevention */
+.adsbygoogle {
+    min-height: 90px; /* Reserve space for standard ad sizes */
+    background-color: #f0f0f0;
+    display: block;
+}
+
+/* Security tips card - Reserve consistent height */
+.security-tips-card {
+    min-height: 400px; /* Same as other cards */
+}
+
+/* Prevent text reflow during loading */
+.ip-address,
+.score-value,
+.status-value {
+    min-width: 120px;
+    display: inline-block;
 }
 
 /* API Page Styles */
