@@ -712,14 +712,14 @@ body {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    opacity: 0;
-    visibility: hidden;
+    opacity: 1;
+    visibility: visible;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.dashboard.visible {
-    opacity: 1;
-    visibility: visible;
+.dashboard.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .dashboard .section-heading {

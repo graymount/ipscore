@@ -1,3 +1,64 @@
+// Safe i18n translation helper
+function t(key, params = {}) {
+    if (window.i18n && window.i18n.t) {
+        return window.t(key, params);
+    }
+    // Return a fallback English text if i18n is not available
+    const fallbacks = {
+        'debug.severegeoanomalies': 'Severe geographic anomalies detected',
+        'debug.geolocation': 'Geographic location',
+        'debug.finalscore': 'Final Score',
+        'debug.riskfactors': 'Risk Factors',
+        'debug.deductiondetails': 'Deduction Details',
+        'debug.ipinfo': 'IP Information',
+        'debug.overview': 'Score Overview',
+        'debug.initial': 'Initial Score',
+        'debug.final': 'Final Score',
+        'debug.risks': 'Risk Factors',
+        'debug.deductions': 'Score Deductions',
+        'debug.norisk': 'No risk factors detected - excellent security status',
+        'debug.status': 'Security Status',
+        'debug.threats': 'Threat Intelligence',
+        'debug.threatsfound': '{count} threats found out of {total} checks',
+        'debug.proxy': 'Proxy/VPN Status',
+        'debug.detected': 'Detected: {type}',
+        'debug.directconnection': 'Direct Connection',
+        'debug.geo': 'Geographic Verification',
+        'debug.locationconsistent': 'Location Consistent',
+        'debug.locationanomaly': 'Location Anomaly Detected',
+        'debug.isp': 'ISP/Organization',
+        'debug.normalisp': 'Normal ISP',
+        'debug.cloudprovider': 'Cloud Provider',
+        'threats.malware': 'Malware Database',
+        'threats.spam': 'Spam Lists',
+        'threats.botnet': 'Botnet',
+        'threats.attack': 'Attack Source IP',
+        'threats.phishing': 'Phishing Websites',
+        'status.clear': 'Clear',
+        'proxytype.cloud': 'Cloud Service',
+        'proxytype.datacenter': 'Data Center',
+        'proxytype.vpn': 'VPN',
+        'proxytype.hosting': 'Hosting Service',
+        'proxytype.overseas': 'Overseas Network',
+        'proxytype.direct': 'Direct Connection',
+        'proxy.high': 'High',
+        'proxy.none': 'None',
+        'proxy.low': 'Low',
+        'proxy.medium': 'Medium',
+        'tips.vpn': 'Consider using a reputable residential IP for better access to services',
+        'tips.risks': 'Address detected security risks to improve your IP reputation',
+        'tips.automation': 'Automated browser detected - use regular browsers for better compatibility',
+        'tips.safe': 'Your IP has an excellent security rating',
+        'button.rescan': 'Rescan'
+    };
+    let text = fallbacks[key] || key;
+    // Simple parameter replacement
+    Object.keys(params).forEach(param => {
+        text = text.replace(`{${param}}`, params[param]);
+    });
+    return text;
+}
+
 class IPSecurityAnalyzer {
     constructor() {
         this.userIP = null;
@@ -71,9 +132,9 @@ class IPSecurityAnalyzer {
         const loadingScreen = document.getElementById('loadingScreen');
         const dashboard = document.getElementById('dashboard');
         
-        // Remove classes for proper reset
+        // Show loading screen and hide dashboard
         loadingScreen.classList.remove('hidden');
-        dashboard.classList.remove('visible');
+        dashboard.classList.add('hidden');
         
         // Force browser reflow to ensure proper transition
         void loadingScreen.offsetHeight;
@@ -83,13 +144,15 @@ class IPSecurityAnalyzer {
         const loadingScreen = document.getElementById('loadingScreen');
         const dashboard = document.getElementById('dashboard');
         
-        // Add classes for smooth transition
+        // Hide loading screen and show dashboard
         loadingScreen.classList.add('hidden');
-        dashboard.classList.add('visible');
+        dashboard.classList.remove('hidden');
         
         // Force i18n update when dashboard is shown
         setTimeout(() => {
-            window.i18n.updatePageLanguage();
+            if (window.i18n && window.i18n.updatePageLanguage) {
+                window.i18n.updatePageLanguage();
+            }
         }, 100);
     }
 
@@ -151,7 +214,9 @@ class IPSecurityAnalyzer {
             this.populateDashboard();
             
             // Force i18n update after all content is populated
-            window.i18n.updatePageLanguage();
+            if (window.i18n && window.i18n.updatePageLanguage) {
+                window.i18n.updatePageLanguage();
+            }
         } catch (error) {
             console.error('Critical error in runAnalysis:', error);
             // Set default values to prevent stuck state
@@ -560,8 +625,8 @@ class IPSecurityAnalyzer {
             // 只有严重地理位置异常才扣分
             const geoDeduction = 2; // 最多扣2分
             score -= geoDeduction;
-            riskFactors.push(i18n.t('debug.severegeoanomalies'));
-            debugInfo.deductions.push(`${i18n.t('debug.geolocation')}: -${geoDeduction}`);
+            riskFactors.push(t('debug.severegeoanomalies'));
+            debugInfo.deductions.push(`${t('debug.geolocation')}: -${geoDeduction}`);
         }
 
         // ISP analysis - no deduction (ip-score.com doesn't seem to deduct by ISP type)
@@ -623,10 +688,10 @@ class IPSecurityAnalyzer {
         
         // 在控制台和页面上显示调试信息
         console.log('Score debug info:', {
-            [i18n.t('debug.finalscore')]: this.healthScore,
-            [i18n.t('debug.riskfactors')]: riskFactors,
-            [i18n.t('debug.deductiondetails')]: debugInfo.deductions,  
-            [i18n.t('debug.ipinfo')]: this.ipData?.org || 'Unknown'
+            [t('debug.finalscore')]: this.healthScore,
+            [t('debug.riskfactors')]: riskFactors,
+            [t('debug.deductiondetails')]: debugInfo.deductions,  
+            [t('debug.ipinfo')]: this.ipData?.org || 'Unknown'
         });
         
         this.displayDebugInfo(debugInfo, riskFactors);
@@ -638,26 +703,26 @@ class IPSecurityAnalyzer {
 
         let html = `
             <div class="debug-summary">
-                <h4>${i18n.t('debug.overview')}</h4>
+                <h4>${t('debug.overview')}</h4>
                 <div class="debug-item">
-                    <span>${i18n.t('debug.initial')}</span>
+                    <span>${t('debug.initial')}</span>
                     <span>${debugInfo.initialScore}</span>
                 </div>
                 <div class="debug-item">
-                    <span>${i18n.t('debug.final')}</span>
+                    <span>${t('debug.final')}</span>
                     <span><strong>${this.healthScore}/100</strong></span>
                 </div>
                 <div class="debug-item">
-                    <span>${i18n.t('debug.risks')}</span>
+                    <span>${t('debug.risks')}</span>
                     <span>${riskFactors.length}</span>
                 </div>
             </div>
             
-            <h4>${i18n.t('debug.deductions')}</h4>
+            <h4>${t('debug.deductions')}</h4>
         `;
 
         if (debugInfo.deductions.length === 0) {
-            html += `<div class="debug-item safe">${i18n.t('debug.norisk')}</div>`;
+            html += `<div class="debug-item safe">${t('debug.norisk')}</div>`;
         } else {
             debugInfo.deductions.forEach(deduction => {
                 html += `<div class="debug-item deduction">❌ ${deduction}</div>`;
@@ -665,22 +730,22 @@ class IPSecurityAnalyzer {
         }
 
         html += `
-            <h4>${i18n.t('debug.status')}</h4>
+            <h4>${t('debug.status')}</h4>
             <div class="debug-item ${this.threatData?.every(t => !t.isThreat) ? 'safe' : 'deduction'}">
-                <span>${i18n.t('debug.threats')}</span>
-                <span>${i18n.t('debug.threatsfound', {count: this.threatData?.filter(t => t.isThreat).length || 0, total: this.threatData?.length || 0})}</span>
+                <span>${t('debug.threats')}</span>
+                <span>${t('debug.threatsfound', {count: this.threatData?.filter(t => t.isThreat).length || 0, total: this.threatData?.length || 0})}</span>
             </div>
             <div class="debug-item ${!this.detectProxy().detected ? 'safe' : 'deduction'}">
-                <span>${i18n.t('debug.proxy')}</span>
-                <span>${this.detectProxy().detected ? i18n.t('debug.detected', {type: this.getProxyTypeDisplayName(this.detectProxy().type)}) : i18n.t('debug.directconnection')}</span>
+                <span>${t('debug.proxy')}</span>
+                <span>${this.detectProxy().detected ? t('debug.detected', {type: this.getProxyTypeDisplayName(this.detectProxy().type)}) : t('debug.directconnection')}</span>
             </div>
             <div class="debug-item ${this.checkGeoConsistency().consistent ? 'safe' : 'deduction'}">
-                <span>${i18n.t('debug.geo')}</span>
-                <span>${this.checkGeoConsistency().consistent ? i18n.t('debug.locationconsistent') : i18n.t('debug.locationanomaly')}</span>
+                <span>${t('debug.geo')}</span>
+                <span>${this.checkGeoConsistency().consistent ? t('debug.locationconsistent') : t('debug.locationanomaly')}</span>
             </div>
             <div class="debug-item ${this.analyzeISP().adjustment >= 0 ? 'safe' : 'deduction'}">
-                <span>${i18n.t('debug.isp')}</span>
-                <span>${this.analyzeISP().riskFactor || i18n.t('debug.normalisp')}</span>
+                <span>${t('debug.isp')}</span>
+                <span>${this.analyzeISP().riskFactor || t('debug.normalisp')}</span>
             </div>
         `;
 
@@ -862,7 +927,7 @@ class IPSecurityAnalyzer {
         if (riskISPs.some(isp => org.includes(isp))) {
             return { 
                 adjustment: -12, 
-                riskFactor: i18n.t('debug.cloudprovider') 
+                riskFactor: t('debug.cloudprovider') 
             };
         }
 
@@ -973,11 +1038,11 @@ class IPSecurityAnalyzer {
             console.warn('Threat data is empty:', this.threatData);
             // 显示默认的检测项目
             const defaultItems = [
-                { source: window.i18n.t('threats.malware'), isThreat: false, severity: null },
-                { source: window.i18n.t('threats.spam'), isThreat: false, severity: null },
-                { source: window.i18n.t('threats.botnet'), isThreat: false, severity: null },
-                { source: window.i18n.t('threats.attack'), isThreat: false, severity: null },
-                { source: window.i18n.t('threats.phishing'), isThreat: false, severity: null }
+                { source: window.t('threats.malware'), isThreat: false, severity: null },
+                { source: window.t('threats.spam'), isThreat: false, severity: null },
+                { source: window.t('threats.botnet'), isThreat: false, severity: null },
+                { source: window.t('threats.attack'), isThreat: false, severity: null },
+                { source: window.t('threats.phishing'), isThreat: false, severity: null }
             ];
             
             defaultItems.forEach((threat, index) => {
@@ -985,7 +1050,7 @@ class IPSecurityAnalyzer {
                     const item = document.createElement('div');
                     item.className = 'check-item';
                     
-                    const status = `<span class="status clear">${window.i18n.t('status.clear')}</span>`;
+                    const status = `<span class="status clear">${window.t('status.clear')}</span>`;
                     
                     item.innerHTML = `
                         <span>${threat.source}</span>
@@ -1004,7 +1069,7 @@ class IPSecurityAnalyzer {
                 
                 const status = threat.isThreat ? 
                     `<span class="status threat">${threat.severity}</span>` :
-                    `<span class="status clear">${window.i18n.t('status.clear')}</span>`;
+                    `<span class="status clear">${window.t('status.clear')}</span>`;
                 
                 item.innerHTML = `
                     <span>${threat.source}</span>
@@ -1017,12 +1082,12 @@ class IPSecurityAnalyzer {
 
     getProxyTypeDisplayName(type) {
         const typeMap = {
-            'cloud': window.i18n.t('proxytype.cloud'),
-            'datacenter': window.i18n.t('proxytype.datacenter'),
-            'vpn': window.i18n.t('proxytype.vpn'),
-            'hosting': window.i18n.t('proxytype.hosting'),
-            'overseas': window.i18n.t('proxytype.overseas'),
-            'direct': window.i18n.t('proxytype.direct')
+            'cloud': window.t('proxytype.cloud'),
+            'datacenter': window.t('proxytype.datacenter'),
+            'vpn': window.t('proxytype.vpn'),
+            'hosting': window.t('proxytype.hosting'),
+            'overseas': window.t('proxytype.overseas'),
+            'direct': window.t('proxytype.direct')
         };
         return typeMap[type] || type;
     }
@@ -1036,18 +1101,18 @@ class IPSecurityAnalyzer {
         const proxyInfo = this.detectProxy();
         
         proxyTypeElement.textContent = this.getProxyTypeDisplayName(proxyInfo.type || 'direct');
-        anonymityLevel.textContent = proxyInfo.detected ? window.i18n.t('proxy.high') : window.i18n.t('proxy.none');
+        anonymityLevel.textContent = proxyInfo.detected ? window.t('proxy.high') : window.t('proxy.none');
         proxyProtocol.textContent = proxyInfo.detected ? 'HTTP/SOCKS' : 'Direct';
         
         // Set risk level based on proxy type
-        let riskLevel = window.i18n.t('proxy.low');
+        let riskLevel = window.t('proxy.low');
         if (proxyInfo.detected) {
             if (proxyInfo.type === 'vpn' || proxyInfo.type === 'datacenter') {
-                riskLevel = window.i18n.t('proxy.high');
+                riskLevel = window.t('proxy.high');
             } else if (proxyInfo.type === 'cloud' || proxyInfo.type === 'overseas') {
-                riskLevel = window.i18n.t('proxy.medium');
+                riskLevel = window.t('proxy.medium');
             } else {
-                riskLevel = window.i18n.t('proxy.medium');
+                riskLevel = window.t('proxy.medium');
             }
         }
         
@@ -1144,19 +1209,19 @@ class IPSecurityAnalyzer {
             const tips = [];
             
             if (this.healthScore < 70) {
-                tips.push(window.i18n.t('tips.vpn'));
+                tips.push(window.t('tips.vpn'));
             }
             
             if (this.riskFactors && this.riskFactors.length > 0) {
-                tips.push(window.i18n.t('tips.risks'));
+                tips.push(window.t('tips.risks'));
             }
             
             if (this.fingerprint?.webdriver) {
-                tips.push(window.i18n.t('tips.automation'));
+                tips.push(window.t('tips.automation'));
             }
             
             if (tips.length === 0) {
-                tips.push(window.i18n.t('tips.safe'));
+                tips.push(window.t('tips.safe'));
                 tips.push('Regular IP security checks are a good habit');
                 tips.push('Enable firewall to protect your device');
             }
@@ -1184,8 +1249,19 @@ class IPSecurityAnalyzer {
 let analyzer;
 
 async function startTest() {
-    analyzer = new IPSecurityAnalyzer();
-    await analyzer.init();
+    try {
+        analyzer = new IPSecurityAnalyzer();
+        await analyzer.init();
+    } catch (error) {
+        console.error('Error starting test:', error);
+        // Ensure dashboard is visible even if there's an error
+        const dashboard = document.getElementById('dashboard');
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (dashboard && loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+        }
+    }
 }
 
 async function checkCustomIP() {
@@ -1211,7 +1287,7 @@ async function checkCustomIP() {
         const dashboard = document.getElementById('dashboard');
         
         loadingScreen.classList.remove('hidden');
-        dashboard.classList.remove('visible');
+        dashboard.classList.add('hidden');
         
         // Force browser reflow
         void loadingScreen.offsetHeight;
@@ -1342,7 +1418,7 @@ async function startPortScan() {
     }
     
     scanBtn.disabled = false;
-    scanBtn.textContent = window.i18n.t('button.rescan');
+    scanBtn.textContent = window.t('button.rescan');
 }
 
 function getStatusClass(status) {
@@ -1379,8 +1455,21 @@ function showDashboard(event) {
 
 // 页面加载完成后自动开始
 document.addEventListener('DOMContentLoaded', () => {
-    // Force English language update
-    window.i18n.setLanguage('en');
-    window.i18n.updatePageLanguage();
-    startTest();
+    try {
+        // Force English language update
+        if (window.i18n) {
+            window.i18n.setLanguage('en');
+            window.i18n.updatePageLanguage();
+        }
+        startTest();
+    } catch (error) {
+        console.error('Error during initialization:', error);
+        // Show dashboard even if there's an error
+        const dashboard = document.getElementById('dashboard');
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (dashboard && loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+        }
+    }
 });
