@@ -435,9 +435,9 @@ class I18n {
         const metaDescription = document.querySelector('meta[name="description"]');
         if (metaDescription) {
             if (this.currentLang === 'zh') {
-                metaDescription.content = '专业的IP地址安全检测平台，提供实时威胁情报分析、代理VPN检测、地理位置验证、设备指纹识别等多维度IP安全评估服务。';
+                metaDescription.content = '免费IP评分检测工具，提供0-100安全评级。专业威胁检测、代理VPN分析和全面IP信誉评估，保护您的网络安全。';
             } else {
-                metaDescription.content = 'Professional IP address security detection platform providing real-time threat intelligence analysis, proxy/VPN detection, geographic verification, device fingerprinting and multi-dimensional IP security assessment services.';
+                metaDescription.content = 'Free IP score checker with instant security rating 0-100. Professional threat detection, proxy/VPN analysis & comprehensive IP reputation assessment.';
             }
         }
     }
