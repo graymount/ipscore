@@ -362,9 +362,16 @@ class I18n {
             value = fallbackValue;
         }
 
-        // If still no value found, return the key itself
+        // If still no value found, return a fallback or empty string
         if (value === undefined) {
-            return key;
+            // For critical keys, provide fallbacks instead of returning the key
+            const fallbacks = {
+                'site.title': 'IP Score',
+                'site.tagline': 'Professional IP Security Assessment Platform',
+                'card.ip.title': 'Your IP Address',
+                'card.score.title': 'Security Score'
+            };
+            return fallbacks[key] || '';
         }
 
         // Replace parameters if value is a string
@@ -416,7 +423,14 @@ class I18n {
         });
 
         // Update meta tags
-        document.title = this.t('site.title') + ' - Professional IP Security Assessment Platform';
+        const siteTitle = this.t('site.title');
+        // Prevent showing translation key in title
+        if (siteTitle && siteTitle !== 'site.title') {
+            document.title = siteTitle + ' - Professional IP Security Assessment Platform';
+        } else {
+            // Fallback to default title if translation fails
+            document.title = 'IP Score - Professional IP Security Assessment Platform';
+        }
         
         const metaDescription = document.querySelector('meta[name="description"]');
         if (metaDescription) {
@@ -457,10 +471,10 @@ window.i18n = new I18n();
             if (content === key) {
                 switch(key) {
                     case 'site.title':
-                        element.textContent = '🛡️ IP Security Score';
+                        element.textContent = '🛡️ IP Score';
                         break;
                     case 'site.tagline':
-                        element.textContent = 'Professional IP Security Assessment Platform';
+                        element.textContent = 'Check Your IP Score - Professional Security Rating';
                         break;
                     case 'card.ip.title':
                         element.textContent = 'Your IP Address';
